@@ -1,0 +1,675 @@
+{
+ "sprites": {
+  "tree_oak": {
+   "file": "tree_oak.png",
+   "frameWidth": 48,
+   "frameHeight": 64,
+   "frames": 1,
+   "body": [
+    -5,
+    -6,
+    10,
+    6
+   ],
+   "shadow": [
+    40,
+    10
+   ]
+  },
+  "tree_oak_b": {
+   "file": "tree_oak_b.png",
+   "frameWidth": 48,
+   "frameHeight": 64,
+   "frames": 1,
+   "body": [
+    -5,
+    -6,
+    10,
+    6
+   ],
+   "shadow": [
+    40,
+    10
+   ]
+  },
+  "tree_round": {
+   "file": "tree_round.png",
+   "frameWidth": 40,
+   "frameHeight": 52,
+   "frames": 1,
+   "body": [
+    -4,
+    -5,
+    8,
+    5
+   ],
+   "shadow": [
+    32,
+    8
+   ]
+  },
+  "tree_pine": {
+   "file": "tree_pine.png",
+   "frameWidth": 32,
+   "frameHeight": 64,
+   "frames": 1,
+   "body": [
+    -3,
+    -5,
+    6,
+    5
+   ],
+   "shadow": [
+    24,
+    7
+   ]
+  },
+  "tree_cherry": {
+   "file": "tree_cherry.png",
+   "frameWidth": 64,
+   "frameHeight": 80,
+   "frames": 1,
+   "body": [
+    -5,
+    -6,
+    10,
+    6
+   ],
+   "shadow": [
+    52,
+    12
+   ]
+  },
+  "tree_cherry_s": {
+   "file": "tree_cherry_s.png",
+   "frameWidth": 44,
+   "frameHeight": 56,
+   "frames": 1,
+   "body": [
+    -4,
+    -5,
+    8,
+    5
+   ],
+   "shadow": [
+    36,
+    9
+   ]
+  },
+  "bush_green": {
+   "file": "bush_green.png",
+   "frameWidth": 32,
+   "frameHeight": 24,
+   "frames": 1,
+   "body": [
+    -12,
+    -8,
+    24,
+    7
+   ],
+   "shadow": [
+    30,
+    6
+   ]
+  },
+  "bush_pink": {
+   "file": "bush_pink.png",
+   "frameWidth": 32,
+   "frameHeight": 24,
+   "frames": 1,
+   "body": [
+    -12,
+    -8,
+    24,
+    7
+   ],
+   "shadow": [
+    30,
+    6
+   ]
+  },
+  "bush_berry": {
+   "file": "bush_berry.png",
+   "frameWidth": 32,
+   "frameHeight": 24,
+   "frames": 1,
+   "body": [
+    -12,
+    -8,
+    24,
+    7
+   ],
+   "shadow": [
+    30,
+    6
+   ]
+  },
+  "bush_blue": {
+   "file": "bush_blue.png",
+   "frameWidth": 32,
+   "frameHeight": 24,
+   "frames": 1,
+   "body": [
+    -12,
+    -8,
+    24,
+    7
+   ],
+   "shadow": [
+    30,
+    6
+   ]
+  },
+  "bush_white": {
+   "file": "bush_white.png",
+   "frameWidth": 32,
+   "frameHeight": 24,
+   "frames": 1,
+   "body": [
+    -12,
+    -8,
+    24,
+    7
+   ],
+   "shadow": [
+    30,
+    6
+   ]
+  },
+  "rock_s": {
+   "file": "rock_s.png",
+   "frameWidth": 16,
+   "frameHeight": 14,
+   "frames": 1,
+   "body": [
+    -5,
+    -6,
+    10,
+    5
+   ]
+  },
+  "rock_m": {
+   "file": "rock_m.png",
+   "frameWidth": 28,
+   "frameHeight": 22,
+   "frames": 1,
+   "body": [
+    -11,
+    -10,
+    22,
+    9
+   ]
+  },
+  "rock_moss": {
+   "file": "rock_moss.png",
+   "frameWidth": 28,
+   "frameHeight": 22,
+   "frames": 1,
+   "body": [
+    -11,
+    -10,
+    22,
+    9
+   ]
+  },
+  "mushroom_red": {
+   "file": "mushroom_red.png",
+   "frameWidth": 16,
+   "frameHeight": 16,
+   "frames": 1
+  },
+  "mushroom_brown": {
+   "file": "mushroom_brown.png",
+   "frameWidth": 16,
+   "frameHeight": 16,
+   "frames": 1
+  },
+  "fence_h": {
+   "file": "fence_h.png",
+   "frameWidth": 16,
+   "frameHeight": 16,
+   "frames": 1,
+   "body": [
+    -8,
+    -6,
+    16,
+    4
+   ]
+  },
+  "fence_v": {
+   "file": "fence_v.png",
+   "frameWidth": 16,
+   "frameHeight": 16,
+   "frames": 1,
+   "body": [
+    -2,
+    -16,
+    4,
+    16
+   ]
+  },
+  "fence_post": {
+   "file": "fence_post.png",
+   "frameWidth": 16,
+   "frameHeight": 16,
+   "frames": 1,
+   "body": [
+    -2,
+    -4,
+    4,
+    4
+   ]
+  },
+  "lantern": {
+   "file": "lantern.png",
+   "frameWidth": 16,
+   "frameHeight": 32,
+   "frames": 2,
+   "body": [
+    -2,
+    -3,
+    4,
+    3
+   ],
+   "glow": [
+    0,
+    -24
+   ]
+  },
+  "bench": {
+   "file": "bench.png",
+   "frameWidth": 32,
+   "frameHeight": 20,
+   "frames": 1,
+   "body": [
+    -14,
+    -8,
+    28,
+    6
+   ],
+   "shadow": [
+    30,
+    6
+   ]
+  },
+  "pot_pink": {
+   "file": "pot_pink.png",
+   "frameWidth": 16,
+   "frameHeight": 16,
+   "frames": 1,
+   "body": [
+    -4,
+    -4,
+    8,
+    4
+   ]
+  },
+  "pot_yellow": {
+   "file": "pot_yellow.png",
+   "frameWidth": 16,
+   "frameHeight": 16,
+   "frames": 1,
+   "body": [
+    -4,
+    -4,
+    8,
+    4
+   ]
+  },
+  "pot_white": {
+   "file": "pot_white.png",
+   "frameWidth": 16,
+   "frameHeight": 16,
+   "frames": 1,
+   "body": [
+    -4,
+    -4,
+    8,
+    4
+   ]
+  },
+  "barrel": {
+   "file": "barrel.png",
+   "frameWidth": 16,
+   "frameHeight": 18,
+   "frames": 1,
+   "body": [
+    -6,
+    -5,
+    12,
+    5
+   ]
+  },
+  "crate": {
+   "file": "crate.png",
+   "frameWidth": 16,
+   "frameHeight": 16,
+   "frames": 1,
+   "body": [
+    -6,
+    -5,
+    12,
+    5
+   ]
+  },
+  "signpost": {
+   "file": "signpost.png",
+   "frameWidth": 16,
+   "frameHeight": 24,
+   "frames": 1,
+   "body": [
+    -2,
+    -3,
+    4,
+    3
+   ]
+  },
+  "dock": {
+   "file": "dock.png",
+   "frameWidth": 48,
+   "frameHeight": 34,
+   "frames": 1,
+   "flat": true
+  },
+  "arch": {
+   "file": "arch.png",
+   "frameWidth": 56,
+   "frameHeight": 56,
+   "frames": 1,
+   "bodies": [
+    [
+     -26,
+     -6,
+     12,
+     6
+    ],
+    [
+     14,
+     -6,
+     12,
+     6
+    ]
+   ]
+  },
+  "waterfall": {
+   "file": "waterfall.png",
+   "frameWidth": 40,
+   "frameHeight": 56,
+   "frames": 4,
+   "anim": 6,
+   "body": [
+    -18,
+    -30,
+    36,
+    24
+   ]
+  },
+  "shadow_s": {
+   "file": "shadow_s.png",
+   "frameWidth": 12,
+   "frameHeight": 4,
+   "frames": 1
+  },
+  "shadow_m": {
+   "file": "shadow_m.png",
+   "frameWidth": 24,
+   "frameHeight": 6,
+   "frames": 1
+  },
+  "shadow_l": {
+   "file": "shadow_l.png",
+   "frameWidth": 48,
+   "frameHeight": 12,
+   "frames": 1
+  },
+  "marker_book": {
+   "file": "marker_book.png",
+   "frameWidth": 24,
+   "frameHeight": 28,
+   "frames": 1
+  },
+  "marker_house": {
+   "file": "marker_house.png",
+   "frameWidth": 24,
+   "frameHeight": 28,
+   "frames": 1
+  },
+  "marker_sprout": {
+   "file": "marker_sprout.png",
+   "frameWidth": 24,
+   "frameHeight": 28,
+   "frames": 1
+  },
+  "marker_puzzle": {
+   "file": "marker_puzzle.png",
+   "frameWidth": 24,
+   "frameHeight": 28,
+   "frames": 1
+  },
+  "marker_pond": {
+   "file": "marker_pond.png",
+   "frameWidth": 24,
+   "frameHeight": 28,
+   "frames": 1
+  },
+  "marker_leaf": {
+   "file": "marker_leaf.png",
+   "frameWidth": 24,
+   "frameHeight": 28,
+   "frames": 1
+  },
+  "bld_cottage": {
+   "file": "bld_cottage.png",
+   "frameWidth": 96,
+   "frameHeight": 100,
+   "frames": 2,
+   "body": [
+    -46,
+    -18,
+    92,
+    18
+   ],
+   "bodies": [
+    [
+     -40,
+     -52,
+     80,
+     34
+    ]
+   ],
+   "door": [
+    0,
+    2
+   ]
+  },
+  "bld_library": {
+   "file": "bld_library.png",
+   "frameWidth": 96,
+   "frameHeight": 100,
+   "frames": 2,
+   "body": [
+    -46,
+    -18,
+    92,
+    18
+   ],
+   "bodies": [
+    [
+     -44,
+     -50,
+     88,
+     32
+    ]
+   ],
+   "door": [
+    10,
+    2
+   ]
+  },
+  "bld_glasshouse": {
+   "file": "bld_glasshouse.png",
+   "frameWidth": 84,
+   "frameHeight": 88,
+   "frames": 2,
+   "body": [
+    -40,
+    -14,
+    80,
+    14
+   ],
+   "bodies": [
+    [
+     -36,
+     -48,
+     72,
+     34
+    ]
+   ],
+   "door": [
+    0,
+    2
+   ]
+  },
+  "bld_pavilion": {
+   "file": "bld_pavilion.png",
+   "frameWidth": 88,
+   "frameHeight": 76,
+   "frames": 2,
+   "bodies": [
+    [
+     -36,
+     -10,
+     6,
+     6
+    ],
+    [
+     30,
+     -10,
+     6,
+     6
+    ],
+    [
+     -10,
+     -22,
+     20,
+     6
+    ]
+   ],
+   "door": [
+    0,
+    2
+   ]
+  },
+  "fx_glow_s": {
+   "file": "fx_glow_s.png",
+   "frameWidth": 20,
+   "frameHeight": 20,
+   "frames": 1
+  },
+  "fx_glow_m": {
+   "file": "fx_glow_m.png",
+   "frameWidth": 44,
+   "frameHeight": 44,
+   "frames": 1
+  },
+  "fx_glow_l": {
+   "file": "fx_glow_l.png",
+   "frameWidth": 72,
+   "frameHeight": 72,
+   "frames": 1
+  },
+  "fx_moon": {
+   "file": "fx_moon.png",
+   "frameWidth": 28,
+   "frameHeight": 14,
+   "frames": 1
+  },
+  "fx_firefly": {
+   "file": "fx_firefly.png",
+   "frameWidth": 3,
+   "frameHeight": 3,
+   "frames": 2
+  },
+  "fx_star": {
+   "file": "fx_star.png",
+   "frameWidth": 3,
+   "frameHeight": 3,
+   "frames": 2
+  },
+  "fx_petal": {
+   "file": "fx_petal.png",
+   "frameWidth": 4,
+   "frameHeight": 4,
+   "frames": 4
+  },
+  "fx_smoke": {
+   "file": "fx_smoke.png",
+   "frameWidth": 10,
+   "frameHeight": 10,
+   "frames": 4
+  },
+  "fx_sparkle": {
+   "file": "fx_sparkle.png",
+   "frameWidth": 5,
+   "frameHeight": 5,
+   "frames": 4
+  },
+  "fx_koi": {
+   "file": "fx_koi.png",
+   "frameWidth": 10,
+   "frameHeight": 6,
+   "frames": 4
+  },
+  "fx_butterfly": {
+   "file": "fx_butterfly.png",
+   "frameWidth": 5,
+   "frameHeight": 4,
+   "frames": 2
+  },
+  "fx_zzz": {
+   "file": "fx_zzz.png",
+   "frameWidth": 5,
+   "frameHeight": 5,
+   "frames": 1
+  },
+  "player": {
+   "file": "player.png",
+   "frameWidth": 24,
+   "frameHeight": 32,
+   "frames": 18,
+   "frame": [
+    24,
+    32
+   ],
+   "cols": 6,
+   "anchor": [
+    12,
+    31
+   ]
+  },
+  "pet_frog": {
+   "file": "pet_frog.png",
+   "frameWidth": 16,
+   "frameHeight": 16,
+   "frames": 27,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 9,
+   "anchor": [
+    8,
+    15
+   ]
+  }
+ },
+ "ui": {
+  "ui_panel": "ui_panel.png",
+  "ui_button": "ui_button.png",
+  "ui_button_hover": "ui_button_hover.png",
+  "ui_button_press": "ui_button_press.png",
+  "ui_chip": "ui_chip.png",
+  "ui_key": "ui_key.png"
+ },
+ "status": "final"
+}

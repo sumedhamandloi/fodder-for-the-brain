@@ -1,0 +1,65 @@
+.panel {
+  border-style: solid;
+  border-width: calc(var(--px) * 8);
+  border-image: url('/assets/ui_panel.png') 8 fill / calc(var(--px) * 8) stretch;
+  image-rendering: pixelated;
+  color: var(--c-ink);
+  padding: calc(var(--px) * 2) calc(var(--px) * 3);
+  filter: drop-shadow(0 calc(var(--px) * 2) 0 rgba(16, 41, 30, 0.45));
+}
+
+.title {
+  font-family: var(--font-pixel);
+  font-weight: 600;
+  font-size: calc(var(--px) * 8);
+  line-height: 1.1;
+  margin: 0 0 calc(var(--px) * 3);
+  color: var(--c-wood-dk);
+}
+
+.button {
+  font-family: var(--font-pixel);
+  font-size: calc(var(--px) * 5.5);
+  color: var(--c-parchment-hi);
+  background: none;
+  cursor: pointer;
+  border-style: solid;
+  border-width: calc(var(--px) * 4);
+  border-image: url('/assets/ui_button.png') 4 fill / calc(var(--px) * 4) stretch;
+  image-rendering: pixelated;
+  padding: 0 calc(var(--px) * 2);
+  min-height: calc(var(--px) * 12);
+  line-height: 1;
+}
+.button:hover { border-image-source: url('/assets/ui_button_hover.png'); }
+.button:active { border-image-source: url('/assets/ui_button_press.png'); }
+
+.quiet {
+  font-family: var(--font-pixel);
+  font-size: calc(var(--px) * 5);
+  color: var(--c-ink);
+  background: none;
+  cursor: pointer;
+  border-style: solid;
+  border-width: calc(var(--px) * 4);
+  border-image: url('/assets/ui_chip.png') 4 fill / calc(var(--px) * 4) stretch;
+  image-rendering: pixelated;
+  padding: 0 calc(var(--px) * 1.5);
+  min-height: calc(var(--px) * 12);
+  line-height: 1;
+}
+.quiet[aria-pressed='true'] { color: var(--c-parchment-hi); border-image-source: url('/assets/ui_button.png'); }
+
+.key {
+  display: inline-grid;
+  place-items: center;
+  min-width: calc(var(--px) * 10);
+  height: calc(var(--px) * 10);
+  border-style: solid;
+  border-width: calc(var(--px) * 3);
+  border-image: url('/assets/ui_key.png') 4 fill / calc(var(--px) * 3) stretch;
+  image-rendering: pixelated;
+  font-size: calc(var(--px) * 5);
+  padding: 0 calc(var(--px) * 1);
+  color: var(--c-ink);
+}

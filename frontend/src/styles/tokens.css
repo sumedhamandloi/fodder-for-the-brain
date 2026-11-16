@@ -1,0 +1,36 @@
+:root {
+  --c-parchment: #f0e5cb;
+  --c-parchment-hi: #fff8e6;
+  --c-parchment-lo: #ead3a2;
+  --c-wood: #805536;
+  --c-wood-dk: #4b3023;
+  --c-moss: #54794b;
+  --c-forest: #183c2b;
+  --c-deep: #10291e;
+  --c-ink: #3a2630;
+  --c-blossom: #e6a0af;
+  --c-marigold: #e9b45f;
+  --px: 3px; /* one art pixel at the current integer scale (set at runtime) */
+  --font-pixel: 'Pixelify Sans', monospace;
+  --font-read: 'Literata', Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #root {
+  margin: 0;
+  height: 100%;
+  background: var(--c-deep);
+  color: var(--c-ink);
+  font-family: var(--font-pixel);
+  overflow: hidden;
+}
+
+canvas { image-rendering: pixelated; image-rendering: crisp-edges; display: block; }
+
+:focus-visible { outline: calc(var(--px) * 1) solid var(--c-marigold); outline-offset: 2px; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); border: 0;
+}

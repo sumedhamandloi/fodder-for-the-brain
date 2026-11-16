@@ -1,0 +1,85 @@
+.hudTop {
+  position: fixed;
+  top: calc(var(--px) * 4);
+  left: calc(var(--px) * 4);
+  right: calc(var(--px) * 4);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  pointer-events: none;
+  z-index: 10;
+}
+.hudTop > * { pointer-events: auto; }
+
+.brand {
+  font-family: var(--font-pixel);
+  font-size: calc(var(--px) * 6);
+  line-height: 1.1;
+}
+.brand small {
+  display: block;
+  font-size: calc(var(--px) * 4);
+  color: var(--c-wood);
+}
+
+.actions { display: flex; gap: calc(var(--px) * 2); }
+
+.prompt {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--px) * 8);
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: calc(var(--px) * 3);
+  font-size: calc(var(--px) * 5.5);
+  white-space: nowrap;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(16, 41, 30, 0.35);
+  z-index: 20;
+  padding: 16px;
+}
+
+.card { width: min(92vw, calc(var(--px) * 170)); }
+
+.reading {
+  font-family: var(--font-read);
+  font-size: clamp(16px, calc(var(--px) * 6), 20px);
+  line-height: 1.6;
+  margin: 0 0 calc(var(--px) * 4);
+}
+
+.note {
+  font-size: calc(var(--px) * 4.5);
+  color: var(--c-wood);
+  margin: 0 0 calc(var(--px) * 4);
+}
+
+.row { display: flex; gap: calc(var(--px) * 2); flex-wrap: wrap; align-items: center; }
+
+.list { list-style: none; margin: 0 0 calc(var(--px) * 3); padding: 0; display: grid; gap: calc(var(--px) * 2); }
+.list button { width: 100%; text-align: left; }
+
+.label {
+  font-size: calc(var(--px) * 4.5);
+  color: var(--c-wood);
+  margin: calc(var(--px) * 3) 0 calc(var(--px) * 1.5);
+}
+
+.help {
+  position: fixed;
+  left: calc(var(--px) * 4);
+  bottom: calc(var(--px) * 4);
+  z-index: 5;
+  font-size: calc(var(--px) * 4);
+  color: var(--c-parchment);
+  text-shadow: 0 calc(var(--px) * 0.5) 0 var(--c-deep);
+  opacity: 0.85;
+}
