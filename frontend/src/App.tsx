@@ -1,4 +1,4 @@
-﻿import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { GameHost } from './game/GameHost';
 import { bus } from './game/bus';
@@ -10,6 +10,7 @@ import { AvatarCreator } from './features/avatar/AvatarCreator';
 import { Onboarding, SignInScreen, TitleScreen, DEFAULT_AVATAR } from './features/onboarding/Screens';
 import { supabase } from './services/supabase';
 import { LibraryOverlay } from './features/library/LibraryOverlay';
+import { PondOverlay } from './features/pond/PondOverlay';
 import s from './App.module.css';
 
 const PHASE_LABEL: Record<Phase, string> = {
@@ -30,7 +31,7 @@ export default function App() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (useSession.getState().stage !== 'world') return;
-      if (useWorld.getState().reading) return; // the reader handles its own Escape
+      if (useWorld.getState().reading || useWorld.getState().atPond) return; // these overlays handle their own Escape
       if (e.key === 'Escape') close();
       const typing = (e.target as HTMLElement)?.tagName === 'INPUT';
       if (!typing && (e.key === 'm' || e.key === 'M') && !useWorld.getState().openPlace)
@@ -65,14 +66,14 @@ export default function App() {
             </nav>
           </header>
 
-          {w.nearby && !w.openPlace && !w.panel && !w.reading && (
+          {w.nearby && !w.openPlace && !w.panel && !w.reading && !w.atPond && (
             <PixelPanel className={s.prompt} role="status">
               <KeyCap>E</KeyCap> Visit {w.nearby.label}
             </PixelPanel>
           )}
 
-          {!w.openPlace && !w.panel && !w.reading && (
-            <p className={s.help}>WASD / arrows to wander Â· click to walk Â· M for places</p>
+          {!w.openPlace && !w.panel && !w.reading && !w.atPond && (
+            <p className={s.help}>WASD / arrows to wander · click to walk · M for places</p>
           )}
 
           {w.openPlace && <PlaceCard id={w.openPlace} onClose={close} />}
@@ -80,6 +81,7 @@ export default function App() {
           {w.panel === 'world' && <WorldPanel onClose={close} />}
           {w.panel === 'avatar' && <AvatarPanel onClose={close} />}
           {w.panel === 'leave' && <LeavePanel onClose={close} />}
+          <PondOverlay />
           <LibraryOverlay />
         </>
       )}
@@ -195,7 +197,7 @@ function AvatarPanel({ onClose }: { onClose: () => void }) {
       <AvatarCreator value={draft} onChange={setDraft} />
       <div className={s.row}>
         <PixelButton variant="quiet" onClick={onClose}>Never mind</PixelButton>
-        <PixelButton onClick={save} disabled={saving}>{saving ? 'Savingâ€¦' : 'Keep this look'}</PixelButton>
+        <PixelButton onClick={save} disabled={saving}>{saving ? 'Saving…' : 'Keep this look'}</PixelButton>
       </div>
     </Modal>
   );
@@ -211,4 +213,5 @@ function LeavePanel({ onClose }: { onClose: () => void }) {
     </Modal>
   );
 }
+
 

@@ -698,6 +698,18 @@
    "frameWidth": 3,
    "frameHeight": 8,
    "frames": 4
+  },
+  "mind_flowers": {
+   "file": "mind_flowers.png",
+   "frameWidth": 16,
+   "frameHeight": 24,
+   "frames": 6
+  },
+  "mind_bed": {
+   "file": "mind_bed.png",
+   "frameWidth": 168,
+   "frameHeight": 56,
+   "frames": 1
   }
  },
  "ui": {

@@ -82,11 +82,11 @@ test('collision stops the avatar at the forest edge', async ({ page }) => {
   expect(p.x).toBeGreaterThan(40);
 });
 
-test('Places menu walks to the library and opens its card', async ({ page }) => {
+test('Places menu walks to the glasshouse and opens its card', async ({ page }) => {
   await enterAsReturningGuest(page);
   await page.getByRole('button', { name: 'Places' }).click();
-  await page.getByRole('button', { name: 'Little Library' }).click();
-  await expect(page.getByRole('dialog', { name: 'Little Library' })).toBeVisible({ timeout: 45_000 });
+  await page.getByRole('button', { name: 'Glasshouse' }).click();
+  await expect(page.getByRole('dialog', { name: 'Glasshouse' })).toBeVisible({ timeout: 45_000 });
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toHaveCount(0);
 });
@@ -111,4 +111,5 @@ test('time of day can be set manually and leaving is gentle', async ({ page }) =
   await page.getByRole('button', { name: 'Leave quietly' }).click();
   await expect(page.getByRole('dialog', { name: 'See you soon' })).toBeVisible();
 });
+
 

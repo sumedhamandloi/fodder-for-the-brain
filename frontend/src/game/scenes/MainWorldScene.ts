@@ -183,14 +183,14 @@ export class MainWorldScene extends Phaser.Scene {
     const inWorld = () => useSession.getState().stage === 'world';
     const interact = () => {
       const s = useWorld.getState();
-      if (this.sys.isActive() && inWorld() && s.nearby && !s.openPlace && !s.panel) this.openPlace(s.nearby.id);
+      if (this.sys.isActive() && inWorld() && s.nearby && !s.openPlace && !s.panel && !s.reading && !s.atPond) this.openPlace(s.nearby.id);
     };
     kb.addKey('E', false).on('down', interact);
     kb.addKey('ENTER', false).on('down', interact);
 
     this.input.on('pointerdown', (p: Phaser.Input.Pointer, objs: Phaser.GameObjects.GameObject[]) => {
       const s = useWorld.getState();
-      if (s.openPlace || s.panel || !inWorld() || !this.sys.isActive()) return;
+      if (s.openPlace || s.panel || s.reading || s.atPond || !inWorld() || !this.sys.isActive()) return;
       const hs = objs.map((o) => o.getData('hotspot') as string | undefined).find(Boolean);
       if (hs) this.goTo(hs, true);
       else this.walkTo(p.worldX, p.worldY);
@@ -216,7 +216,7 @@ export class MainWorldScene extends Phaser.Scene {
     let lastRM = useWorld.getState().reducedMotion;
     const syncFreeze = () => {
       const s = useWorld.getState();
-      this.player.frozen = !!(s.openPlace || s.panel) || !inWorld();
+      this.player.frozen = !!(s.openPlace || s.panel || s.reading || s.atPond) || !inWorld();
     };
     syncFreeze();
     let lastAvatar: AvatarConfig | null = null;
@@ -296,6 +296,10 @@ export class MainWorldScene extends Phaser.Scene {
 
   private openPlace(id: string) {
     if (id === 'library') return this.enterInterior('library');
+    if (id === 'pond') {
+      useWorld.getState().set({ atPond: true });
+      return;
+    }
     useWorld.getState().set({ openPlace: id });
     bus.emit('place:opened', { id });
   }
@@ -442,4 +446,5 @@ export class MainWorldScene extends Phaser.Scene {
     if ((near?.id ?? null) !== (s.nearby?.id ?? null)) s.set({ nearby: near ? { id: near.id, label: near.label } : null });
   }
 }
+
 

@@ -26,6 +26,7 @@ interface WorldState {
   openPlace: string | null;
   location: 'garden' | 'library';
   reading: LibraryView | null;
+  atPond: boolean;
   panel: 'places' | 'world' | 'leave' | 'avatar' | null;
   timeMode: 'auto' | 'manual';
   manualPhase: Phase;
@@ -53,6 +54,7 @@ export const useWorld = create<WorldState>((set) => ({
   openPlace: null,
   location: 'garden',
   reading: null,
+  atPond: false,
   panel: null,
   timeMode: 'auto',
   manualPhase: 'afternoon',
@@ -82,4 +84,5 @@ if (typeof window !== 'undefined') {
     if (p !== useWorld.getState().autoPhase) useWorld.getState().set({ autoPhase: p });
   }, 30_000);
 }
+
 
