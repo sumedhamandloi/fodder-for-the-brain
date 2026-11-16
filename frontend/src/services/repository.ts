@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+﻿import { supabase } from './supabase';
 import type { AvatarConfig } from '../features/avatar/types';
 
 export interface Profile {
@@ -17,6 +17,7 @@ export interface SaveData {
   profile: Profile | null;
   avatar: AvatarConfig | null;
   pet: PetRecord | null;
+  ideas: string[]; // saved library reads (content ids)
 }
 
 /** Where a player's world is kept. Guests use this device; accounts use Supabase (RLS-protected). */
@@ -26,6 +27,7 @@ export interface SaveRepository {
   saveProfile(p: Profile): Promise<void>;
   saveAvatar(a: AvatarConfig): Promise<void>;
   savePet(p: PetRecord): Promise<void>;
+  setIdea(contentId: string, saved: boolean): Promise<void>;
 }
 
 const LS_KEY = 'fodder.save.v1';
@@ -34,9 +36,9 @@ export class DeviceRepository implements SaveRepository {
   readonly kind = 'device' as const;
   private read(): SaveData {
     try {
-      return { profile: null, avatar: null, pet: null, ...JSON.parse(localStorage.getItem(LS_KEY) ?? '{}') };
+      return { profile: null, avatar: null, pet: null, ideas: [], ...JSON.parse(localStorage.getItem(LS_KEY) ?? '{}') };
     } catch {
-      return { profile: null, avatar: null, pet: null };
+      return { profile: null, avatar: null, pet: null, ideas: [] };
     }
   }
   private write(patch: Partial<SaveData>) {
@@ -58,6 +60,10 @@ export class DeviceRepository implements SaveRepository {
   async savePet(pet: PetRecord) {
     this.write({ pet });
   }
+  async setIdea(id: string, saved: boolean) {
+    const ideas = this.read().ideas.filter((x) => x !== id);
+    this.write({ ideas: saved ? [...ideas, id] : ideas });
+  }
   hasData() {
     const d = this.read();
     return !!(d.profile || d.avatar || d.pet);
@@ -70,10 +76,11 @@ export class AccountRepository implements SaveRepository {
 
   async load(): Promise<SaveData> {
     const db = supabase!;
-    const [p, a, pet] = await Promise.all([
+    const [p, a, pet, ideas] = await Promise.all([
       db.from('profiles').select('*').eq('user_id', this.userId).maybeSingle(),
       db.from('avatars').select('config').eq('user_id', this.userId).maybeSingle(),
       db.from('pets').select('species,name').eq('user_id', this.userId).order('adopted_at').limit(1).maybeSingle(),
+      db.from('saved_ideas').select('content_id').eq('user_id', this.userId).order('saved_at'),
     ]);
     for (const r of [p, a, pet]) if (r.error) throw r.error;
     return {
@@ -87,6 +94,8 @@ export class AccountRepository implements SaveRepository {
         : null,
       avatar: (a.data?.config as AvatarConfig) ?? null,
       pet: (pet.data as PetRecord) ?? null,
+      // the library table may not exist yet if migration 0002 hasn't been run; ideas then start empty
+      ideas: ideas.error ? [] : (ideas.data ?? []).map((r: { content_id: string }) => r.content_id),
     };
   }
 
@@ -118,4 +127,13 @@ export class AccountRepository implements SaveRepository {
       : await db.from('pets').insert({ user_id: this.userId, species: p.species, name: p.name });
     if (error) throw error;
   }
+
+  async setIdea(contentId: string, saved: boolean) {
+    const db = supabase!.from('saved_ideas');
+    const { error } = saved
+      ? await db.upsert({ user_id: this.userId, content_id: contentId })
+      : await db.delete().eq('user_id', this.userId).eq('content_id', contentId);
+    if (error) throw error;
+  }
 }
+

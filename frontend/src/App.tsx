@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { GameHost } from './game/GameHost';
 import { bus } from './game/bus';
@@ -9,6 +9,7 @@ import { PLACE_INFO } from './features/places/places';
 import { AvatarCreator } from './features/avatar/AvatarCreator';
 import { Onboarding, SignInScreen, TitleScreen, DEFAULT_AVATAR } from './features/onboarding/Screens';
 import { supabase } from './services/supabase';
+import { LibraryOverlay } from './features/library/LibraryOverlay';
 import s from './App.module.css';
 
 const PHASE_LABEL: Record<Phase, string> = {
@@ -19,6 +20,7 @@ export default function App() {
   const w = useWorld();
   const stage = useSession((st) => st.stage);
   const name = useSession((st) => st.profile?.displayName);
+  const where = w.location === 'library' ? 'the Little Library' : name ? `${name}'s garden` : 'the garden';
   const close = () => w.set({ openPlace: null, panel: null });
 
   useEffect(() => {
@@ -28,6 +30,7 @@ export default function App() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (useSession.getState().stage !== 'world') return;
+      if (useWorld.getState().reading) return; // the reader handles its own Escape
       if (e.key === 'Escape') close();
       const typing = (e.target as HTMLElement)?.tagName === 'INPUT';
       if (!typing && (e.key === 'm' || e.key === 'M') && !useWorld.getState().openPlace)
@@ -53,7 +56,7 @@ export default function App() {
           <header className={s.hudTop}>
             <PixelPanel className={s.brand}>
               Fodder for the Brain
-              <small>{PHASE_LABEL[phase]} in {name ? `${name}'s` : 'the'} garden</small>
+              <small>{PHASE_LABEL[phase]} in {where}</small>
             </PixelPanel>
             <nav className={s.actions} aria-label="World menu">
               <PixelButton variant="quiet" onClick={() => w.set({ panel: 'places' })} aria-keyshortcuts="M">Places</PixelButton>
@@ -62,14 +65,14 @@ export default function App() {
             </nav>
           </header>
 
-          {w.nearby && !w.openPlace && !w.panel && (
+          {w.nearby && !w.openPlace && !w.panel && !w.reading && (
             <PixelPanel className={s.prompt} role="status">
               <KeyCap>E</KeyCap> Visit {w.nearby.label}
             </PixelPanel>
           )}
 
-          {!w.openPlace && !w.panel && (
-            <p className={s.help}>WASD / arrows to wander · click to walk · M for places</p>
+          {!w.openPlace && !w.panel && !w.reading && (
+            <p className={s.help}>WASD / arrows to wander Â· click to walk Â· M for places</p>
           )}
 
           {w.openPlace && <PlaceCard id={w.openPlace} onClose={close} />}
@@ -77,6 +80,7 @@ export default function App() {
           {w.panel === 'world' && <WorldPanel onClose={close} />}
           {w.panel === 'avatar' && <AvatarPanel onClose={close} />}
           {w.panel === 'leave' && <LeavePanel onClose={close} />}
+          <LibraryOverlay />
         </>
       )}
     </>
@@ -191,7 +195,7 @@ function AvatarPanel({ onClose }: { onClose: () => void }) {
       <AvatarCreator value={draft} onChange={setDraft} />
       <div className={s.row}>
         <PixelButton variant="quiet" onClick={onClose}>Never mind</PixelButton>
-        <PixelButton onClick={save} disabled={saving}>{saving ? 'Saving…' : 'Keep this look'}</PixelButton>
+        <PixelButton onClick={save} disabled={saving}>{saving ? 'Savingâ€¦' : 'Keep this look'}</PixelButton>
       </div>
     </Modal>
   );
@@ -207,3 +211,4 @@ function LeavePanel({ onClose }: { onClose: () => void }) {
     </Modal>
   );
 }
+

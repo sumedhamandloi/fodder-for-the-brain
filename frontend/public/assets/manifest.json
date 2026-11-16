@@ -661,6 +661,43 @@
     8,
     15
    ]
+  },
+  "room_library": {
+   "file": "room_library.png",
+   "frameWidth": 480,
+   "frameHeight": 270,
+   "frames": 1
+  },
+  "lib_desk": {
+   "file": "lib_desk.png",
+   "frameWidth": 96,
+   "frameHeight": 48,
+   "frames": 1
+  },
+  "lib_chair": {
+   "file": "lib_chair.png",
+   "frameWidth": 56,
+   "frameHeight": 52,
+   "frames": 1
+  },
+  "lib_lamp": {
+   "file": "lib_lamp.png",
+   "frameWidth": 20,
+   "frameHeight": 64,
+   "frames": 1
+  },
+  "fx_fire": {
+   "file": "fx_fire.png",
+   "frameWidth": 28,
+   "frameHeight": 22,
+   "frames": 4,
+   "anim": 7
+  },
+  "fx_rain": {
+   "file": "fx_rain.png",
+   "frameWidth": 3,
+   "frameHeight": 8,
+   "frames": 4
   }
  },
  "ui": {

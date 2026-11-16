@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+﻿import Phaser from 'phaser';
 import type { Manifest, SpriteMeta } from '../assets';
 import { Player, registerPlayerAnims, WALK_SPEED } from '../entities/Player';
 import { Pet, registerPetAnims } from '../entities/Pet';
@@ -183,20 +183,27 @@ export class MainWorldScene extends Phaser.Scene {
     const inWorld = () => useSession.getState().stage === 'world';
     const interact = () => {
       const s = useWorld.getState();
-      if (inWorld() && s.nearby && !s.openPlace && !s.panel) this.openPlace(s.nearby.id);
+      if (this.sys.isActive() && inWorld() && s.nearby && !s.openPlace && !s.panel) this.openPlace(s.nearby.id);
     };
     kb.addKey('E', false).on('down', interact);
     kb.addKey('ENTER', false).on('down', interact);
 
     this.input.on('pointerdown', (p: Phaser.Input.Pointer, objs: Phaser.GameObjects.GameObject[]) => {
       const s = useWorld.getState();
-      if (s.openPlace || s.panel || !inWorld()) return;
+      if (s.openPlace || s.panel || !inWorld() || !this.sys.isActive()) return;
       const hs = objs.map((o) => o.getData('hotspot') as string | undefined).find(Boolean);
       if (hs) this.goTo(hs, true);
       else this.walkTo(p.worldX, p.worldY);
     });
 
-    this.unsub.push(bus.on('place:goto', ({ id }) => this.goTo(id, true)));
+    this.unsub.push(bus.on('place:goto', ({ id }) => this.sys.isActive() && this.goTo(id, true)));
+    this.events.on('wake', () => {
+      useWorld.getState().set({ location: 'garden', hotspots: this.hotspots.map(({ id, label }) => ({ id, label })), nearby: null });
+      // step out onto the path in front of the door you came through
+      this.player.setPosition(this.player.x, this.player.y + 10);
+      this.player.facing = 'down';
+      this.cameras.main.fadeIn(useWorld.getState().reducedMotion ? 0 : 400, 16, 41, 30);
+    });
 
     // ---------------------------------------------------------------- atmosphere
     this.atmosphere = new Atmosphere(this, lights, litables, [() => this.spawnNight()], [() => this.spawnDay()]);
@@ -223,6 +230,8 @@ export class MainWorldScene extends Phaser.Scene {
         const old = this.player.texture.key;
         registerPlayerAnims(this, key);
         this.player.refreshLook(key);
+        this.registry.set('avatarTex', key);
+        this.game.events.emit('avatar-changed', key);
         if (old.startsWith('avatar-')) this.textures.remove(old);
       });
     };
@@ -286,8 +295,20 @@ export class MainWorldScene extends Phaser.Scene {
   }
 
   private openPlace(id: string) {
+    if (id === 'library') return this.enterInterior('library');
     useWorld.getState().set({ openPlace: id });
     bus.emit('place:opened', { id });
+  }
+
+  private enterInterior(key: string) {
+    useWorld.getState().set({ nearby: null });
+    this.player.route = [];
+    const go = () => this.scene.switch(key);
+    if (useWorld.getState().reducedMotion) go();
+    else {
+      this.cameras.main.fadeOut(300, 16, 41, 30);
+      this.cameras.main.once('camerafadeoutcomplete', go);
+    }
   }
 
   // ------------------------------------------------------------------ ambient life
@@ -421,3 +442,4 @@ export class MainWorldScene extends Phaser.Scene {
     if ((near?.id ?? null) !== (s.nearby?.id ?? null)) s.set({ nearby: near ? { id: near.id, label: near.label } : null });
   }
 }
+

@@ -1,6 +1,7 @@
-import Phaser from 'phaser';
+﻿import Phaser from 'phaser';
 import { PreloadScene } from './scenes/PreloadScene';
 import { MainWorldScene } from './scenes/MainWorldScene';
+import { LibraryScene } from './scenes/LibraryScene';
 
 export const BASE_W = 480;
 export const BASE_H = 270;
@@ -24,7 +25,7 @@ export function createGame(parent: HTMLElement) {
     antialias: false,
     scale: { mode: Phaser.Scale.NONE, zoom: fit.zoom },
     physics: { default: 'arcade', arcade: { debug: false } },
-    scene: [PreloadScene, MainWorldScene],
+    scene: [PreloadScene, MainWorldScene, LibraryScene],
   });
   document.documentElement.style.setProperty('--px', `${fit.zoom}px`);
   const onResize = () => {
@@ -36,3 +37,4 @@ export function createGame(parent: HTMLElement) {
   window.addEventListener('resize', onResize);
   return { game, dispose: () => window.removeEventListener('resize', onResize) };
 }
+

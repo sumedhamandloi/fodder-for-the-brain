@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+﻿import { create } from 'zustand';
 import type { Session } from '@supabase/supabase-js';
 import { supabase } from '../services/supabase';
 import { AccountRepository, DeviceRepository, PetRecord, Profile, SaveRepository } from '../services/repository';
@@ -13,6 +13,7 @@ interface SessionState {
   profile: Profile | null;
   avatar: AvatarConfig | null;
   pet: PetRecord | null;
+  ideas: string[];
   error: string | null;
   set: (p: Partial<SessionState>) => void;
 }
@@ -26,6 +27,7 @@ export const useSession = create<SessionState>((set) => ({
   profile: null,
   avatar: null,
   pet: null,
+  ideas: [],
   error: null,
   set: (p) => set(p),
 }));
@@ -42,6 +44,7 @@ async function adopt(repo: SaveRepository, email: string | null) {
       if (local.profile) await repo.saveProfile(local.profile);
       if (local.avatar) await repo.saveAvatar(local.avatar);
       if (local.pet) await repo.savePet(local.pet);
+      for (const id of local.ideas) await repo.setIdea(id, true).catch(() => undefined);
       data = await repo.load();
     }
     s.set({
@@ -108,4 +111,16 @@ export async function updateAvatar(avatar: AvatarConfig) {
   const s = useSession.getState();
   await s.repo.saveAvatar(avatar);
   s.set({ avatar });
+}
+
+export async function toggleIdea(contentId: string) {
+  const s = useSession.getState();
+  const saved = !s.ideas.includes(contentId);
+  s.set({ ideas: saved ? [...s.ideas, contentId] : s.ideas.filter((x) => x !== contentId) });
+  try {
+    await s.repo.setIdea(contentId, saved);
+  } catch {
+    // roll back quietly if the save failed
+    useSession.getState().set({ ideas: s.ideas });
+  }
 }

@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+﻿import { create } from 'zustand';
 
 export type Phase = 'dawn' | 'morning' | 'afternoon' | 'sunset' | 'evening' | 'night';
 export const PHASES: Phase[] = ['dawn', 'morning', 'afternoon', 'sunset', 'evening', 'night'];
@@ -12,6 +12,8 @@ export function phaseForHour(h: number): Phase {
   return 'night';
 }
 
+export type LibraryView = { kind: 'shelf'; id: string } | { kind: 'read'; id: string; from?: LibraryView } | { kind: 'saved' };
+
 export interface Hotspot {
   id: string;
   label: string;
@@ -22,6 +24,8 @@ interface WorldState {
   hotspots: Hotspot[];
   nearby: Hotspot | null;
   openPlace: string | null;
+  location: 'garden' | 'library';
+  reading: LibraryView | null;
   panel: 'places' | 'world' | 'leave' | 'avatar' | null;
   timeMode: 'auto' | 'manual';
   manualPhase: Phase;
@@ -47,6 +51,8 @@ export const useWorld = create<WorldState>((set) => ({
   hotspots: [],
   nearby: null,
   openPlace: null,
+  location: 'garden',
+  reading: null,
   panel: null,
   timeMode: 'auto',
   manualPhase: 'afternoon',
@@ -76,3 +82,4 @@ if (typeof window !== 'undefined') {
     if (p !== useWorld.getState().autoPhase) useWorld.getState().set({ autoPhase: p });
   }, 30_000);
 }
+
