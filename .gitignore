@@ -1,0 +1,10 @@
+node_modules/
+dist/
+frontend/test-results/
+frontend/playwright-report/
+tools/art/out/
+__pycache__/
+*.pyc
+.env
+.env.*
+.vercel
