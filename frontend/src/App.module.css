@@ -48,6 +48,7 @@
 }
 
 .card { width: min(92vw, calc(var(--px) * 170)); }
+.wide { width: min(96vw, calc(var(--px) * 250)); }
 
 .reading {
   font-family: var(--font-read);

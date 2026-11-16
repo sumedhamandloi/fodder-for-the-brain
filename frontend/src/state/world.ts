@@ -22,7 +22,7 @@ interface WorldState {
   hotspots: Hotspot[];
   nearby: Hotspot | null;
   openPlace: string | null;
-  panel: 'places' | 'world' | 'leave' | null;
+  panel: 'places' | 'world' | 'leave' | 'avatar' | null;
   timeMode: 'auto' | 'manual';
   manualPhase: Phase;
   autoPhase: Phase;

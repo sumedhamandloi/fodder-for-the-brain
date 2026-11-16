@@ -6,6 +6,9 @@ import { Atmosphere, LightSource, Litable } from '../systems/Atmosphere';
 import { Pathfinder } from '../systems/Pathfinder';
 import { bus } from '../bus';
 import { currentPhase, useWorld, Hotspot } from '../../state/world';
+import { useSession } from '../../state/session';
+import { composeAvatar } from '../../features/avatar/compose';
+import type { AvatarConfig } from '../../features/avatar/types';
 
 const TS = 16;
 const WATER_FULL = 1 * 16 + 15 + 1; // gid of the all-water tile
@@ -177,16 +180,17 @@ export class MainWorldScene extends Phaser.Scene {
       au: kb.addKey('UP', false), ad: kb.addKey('DOWN', false), al: kb.addKey('LEFT', false), ar: kb.addKey('RIGHT', false),
       jog: kb.addKey('SHIFT', false),
     };
+    const inWorld = () => useSession.getState().stage === 'world';
     const interact = () => {
       const s = useWorld.getState();
-      if (s.nearby && !s.openPlace && !s.panel) this.openPlace(s.nearby.id);
+      if (inWorld() && s.nearby && !s.openPlace && !s.panel) this.openPlace(s.nearby.id);
     };
     kb.addKey('E', false).on('down', interact);
     kb.addKey('ENTER', false).on('down', interact);
 
     this.input.on('pointerdown', (p: Phaser.Input.Pointer, objs: Phaser.GameObjects.GameObject[]) => {
       const s = useWorld.getState();
-      if (s.openPlace || s.panel) return;
+      if (s.openPlace || s.panel || !inWorld()) return;
       const hs = objs.map((o) => o.getData('hotspot') as string | undefined).find(Boolean);
       if (hs) this.goTo(hs, true);
       else this.walkTo(p.worldX, p.worldY);
@@ -203,9 +207,35 @@ export class MainWorldScene extends Phaser.Scene {
     };
     applyAtmo(true);
     let lastRM = useWorld.getState().reducedMotion;
+    const syncFreeze = () => {
+      const s = useWorld.getState();
+      this.player.frozen = !!(s.openPlace || s.panel) || !inWorld();
+    };
+    syncFreeze();
+    let lastAvatar: AvatarConfig | null = null;
+    const syncAvatar = (a: AvatarConfig | null) => {
+      if (!a || a === lastAvatar) return;
+      lastAvatar = a;
+      composeAvatar(a).then((canvas) => {
+        if (lastAvatar !== a || !this.sys.isActive()) return;
+        const key = `avatar-${Date.now()}`;
+        this.textures.addSpriteSheet(key, canvas as unknown as HTMLImageElement, { frameWidth: 24, frameHeight: 32 });
+        const old = this.player.texture.key;
+        registerPlayerAnims(this, key);
+        this.player.refreshLook(key);
+        if (old.startsWith('avatar-')) this.textures.remove(old);
+      });
+    };
+    syncAvatar(useSession.getState().avatar);
+    this.unsub.push(
+      useSession.subscribe((st) => {
+        syncFreeze();
+        syncAvatar(st.avatar);
+      }),
+    );
     this.unsub.push(
       useWorld.subscribe((s) => {
-        this.player.frozen = !!(s.openPlace || s.panel);
+        syncFreeze();
         const rmChanged = s.reducedMotion !== lastRM;
         lastRM = s.reducedMotion;
         applyAtmo(rmChanged);

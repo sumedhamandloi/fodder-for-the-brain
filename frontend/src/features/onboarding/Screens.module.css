@@ -1,0 +1,103 @@
+.center {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 30;
+  padding: 16px;
+  background: rgba(16, 41, 30, 0.28);
+  overflow-y: auto;
+}
+
+.title { text-align: center; width: min(92vw, calc(var(--px) * 190)); }
+.logo {
+  font-family: var(--font-pixel);
+  font-weight: 600;
+  font-size: calc(var(--px) * 14);
+  line-height: 1;
+  margin: calc(var(--px) * 2) 0;
+  color: var(--c-forest);
+  text-shadow: 0 calc(var(--px) * 1) 0 var(--c-parchment-lo);
+}
+.tagline { font-family: var(--font-read); font-style: italic; font-size: clamp(16px, calc(var(--px) * 6), 22px); margin: 0 0 calc(var(--px) * 6); color: var(--c-wood); }
+
+.card { width: min(92vw, calc(var(--px) * 160)); }
+.wide { width: min(96vw, calc(var(--px) * 250)); }
+
+.stack { display: grid; gap: calc(var(--px) * 3); justify-items: stretch; }
+.title .stack { justify-items: center; }
+.row { display: flex; gap: calc(var(--px) * 2); flex-wrap: wrap; align-items: center; margin-top: calc(var(--px) * 3); }
+
+.reading { font-family: var(--font-read); font-size: clamp(16px, calc(var(--px) * 5.5), 19px); line-height: 1.6; margin: 0; }
+.small { font-size: calc(var(--px) * 4.5); color: var(--c-wood); margin: calc(var(--px) * 4) 0 0; }
+.error { font-family: var(--font-read); color: #a3462f; margin: 0; }
+
+.field { display: grid; gap: calc(var(--px) * 1.5); font-size: calc(var(--px) * 5); color: var(--c-wood-dk); }
+.field input {
+  font-family: var(--font-read);
+  font-size: clamp(16px, calc(var(--px) * 6), 20px);
+  padding: calc(var(--px) * 2) calc(var(--px) * 3);
+  background: var(--c-parchment-hi);
+  color: var(--c-ink);
+  border: calc(var(--px) * 1) solid var(--c-ink);
+  box-shadow: inset 0 calc(var(--px) * 1) 0 var(--c-parchment-lo);
+  border-radius: 0;
+}
+
+/* form submit styled like PixelButton primary */
+.submit {
+  font-family: var(--font-pixel);
+  font-size: calc(var(--px) * 5.5);
+  color: var(--c-parchment-hi);
+  background: none;
+  cursor: pointer;
+  border-style: solid;
+  border-width: calc(var(--px) * 4);
+  border-image: url('/assets/ui_button.png') 4 fill / calc(var(--px) * 4) stretch;
+  image-rendering: pixelated;
+  padding: 0 calc(var(--px) * 2);
+  min-height: calc(var(--px) * 12);
+}
+.submit:disabled, .row button:disabled { opacity: 0.55; cursor: default; }
+
+.progress { display: flex; gap: calc(var(--px) * 2); margin: calc(var(--px) * -1) 0 calc(var(--px) * 3); }
+.dot, .dotOn { width: calc(var(--px) * 4); height: calc(var(--px) * 4); background: var(--c-parchment-lo); box-shadow: 0 0 0 calc(var(--px) * 0.75) var(--c-ink); }
+.dotOn { background: var(--c-moss); }
+
+.species { display: grid; grid-template-columns: repeat(3, 1fr); gap: calc(var(--px) * 2); }
+.speciesCard {
+  display: grid;
+  justify-items: center;
+  gap: calc(var(--px) * 1);
+  font-family: var(--font-pixel);
+  font-size: calc(var(--px) * 5);
+  color: var(--c-ink);
+  background: var(--c-parchment-hi);
+  border: calc(var(--px) * 1) solid var(--c-ink);
+  padding: calc(var(--px) * 2);
+  cursor: pointer;
+}
+.speciesCard[aria-checked='true'] { background: #d2e3a0; box-shadow: inset 0 0 0 calc(var(--px) * 1) var(--c-moss); }
+.speciesCard:disabled { opacity: 0.55; cursor: default; }
+.speciesCard small { font-size: calc(var(--px) * 3.5); color: var(--c-wood); }
+
+.frog {
+  display: inline-block;
+  width: calc(var(--px) * 32);
+  height: calc(var(--px) * 32);
+  background: url('/assets/pet_frog.png') 0 0 / calc(var(--px) * 288) calc(var(--px) * 96) no-repeat;
+  image-rendering: pixelated;
+}
+.soon {
+  display: grid;
+  place-items: center;
+  width: calc(var(--px) * 32);
+  height: calc(var(--px) * 32);
+  font-size: calc(var(--px) * 10);
+  color: var(--c-parchment-lo);
+}
+
+.chips { display: flex; flex-wrap: wrap; gap: calc(var(--px) * 2); }
+
+.peek { display: flex; align-items: flex-end; justify-content: center; gap: calc(var(--px) * 2); margin-top: calc(var(--px) * 2); }
+.peek .frog { width: calc(var(--px) * 16); height: calc(var(--px) * 16); background-size: calc(var(--px) * 144) calc(var(--px) * 48); }

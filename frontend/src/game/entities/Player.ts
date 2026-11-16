@@ -4,20 +4,23 @@ export type Facing = 'down' | 'up' | 'side';
 const ROW: Record<Facing, number> = { down: 0, up: 6, side: 12 };
 export const WALK_SPEED = 72;
 
-export function registerPlayerAnims(scene: Phaser.Scene) {
+/** (Re)build the player animations from a texture: the default sheet or a composed avatar. */
+export function registerPlayerAnims(scene: Phaser.Scene, tex = 'player') {
   for (const f of Object.keys(ROW) as Facing[]) {
     const r = ROW[f];
+    scene.anims.remove(`player-idle-${f}`);
+    scene.anims.remove(`player-walk-${f}`);
     scene.anims.create({
       key: `player-idle-${f}`,
       frames: [
-        { key: 'player', frame: r, duration: 2600 },
-        { key: 'player', frame: r + 1, duration: 140 },
+        { key: tex, frame: r, duration: 2600 },
+        { key: tex, frame: r + 1, duration: 140 },
       ],
       repeat: -1,
     });
     scene.anims.create({
       key: `player-walk-${f}`,
-      frames: scene.anims.generateFrameNumbers('player', { start: r + 2, end: r + 5 }),
+      frames: scene.anims.generateFrameNumbers(tex, { start: r + 2, end: r + 5 }),
       frameRate: 8,
       repeat: -1,
     });
@@ -90,5 +93,11 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     this.setFlipX(this.facing === 'side' && this.flipSide);
     const key = `player-${moving ? 'walk' : 'idle'}-${this.facing}`;
     if (this.anims.currentAnim?.key !== key) this.play(key, true);
+  }
+
+  /** Called after the animations were rebuilt for a new avatar texture. */
+  refreshLook(tex: string) {
+    this.setTexture(tex, 0);
+    this.play(`player-idle-${this.facing}`);
   }
 }
