@@ -296,6 +296,7 @@ export class MainWorldScene extends Phaser.Scene {
 
   private openPlace(id: string) {
     if (id === 'library') return this.enterInterior('library');
+    if (id === 'cottage') return this.enterInterior('home');
     if (id === 'pond') {
       useWorld.getState().set({ atPond: true });
       return;

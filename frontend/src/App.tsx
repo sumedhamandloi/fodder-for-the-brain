@@ -11,6 +11,7 @@ import { Onboarding, SignInScreen, TitleScreen, DEFAULT_AVATAR } from './feature
 import { supabase } from './services/supabase';
 import { LibraryOverlay } from './features/library/LibraryOverlay';
 import { PondOverlay } from './features/pond/PondOverlay';
+import { DecorPanel, Toast } from './features/home/DecorPanel';
 import s from './App.module.css';
 
 const PHASE_LABEL: Record<Phase, string> = {
@@ -21,7 +22,11 @@ export default function App() {
   const w = useWorld();
   const stage = useSession((st) => st.stage);
   const name = useSession((st) => st.profile?.displayName);
-  const where = w.location === 'library' ? 'the Little Library' : name ? `${name}'s garden` : 'the garden';
+  const where =
+    w.location === 'library' ? 'the Little Library'
+    : w.location === 'home' ? (name ? `${name}'s little garden` : 'your little garden')
+    : name ? `${name}'s garden` : 'the garden';
+  const quiet = !w.openPlace && !w.panel && !w.reading && !w.atPond && !w.decorating;
   const close = () => w.set({ openPlace: null, panel: null });
 
   useEffect(() => {
@@ -31,7 +36,8 @@ export default function App() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (useSession.getState().stage !== 'world') return;
-      if (useWorld.getState().reading || useWorld.getState().atPond) return; // these overlays handle their own Escape
+      const ws = useWorld.getState();
+      if (ws.reading || ws.atPond || ws.decorating) return; // these overlays handle their own Escape
       if (e.key === 'Escape') close();
       const typing = (e.target as HTMLElement)?.tagName === 'INPUT';
       if (!typing && (e.key === 'm' || e.key === 'M') && !useWorld.getState().openPlace)
@@ -60,19 +66,24 @@ export default function App() {
               <small>{PHASE_LABEL[phase]} in {where}</small>
             </PixelPanel>
             <nav className={s.actions} aria-label="World menu">
+              {w.location === 'home' && (
+                <PixelButton variant="quiet" aria-pressed={!!w.decorating} onClick={() => w.set({ decorating: w.decorating ? null : { item: null } })}>
+                  Decorate
+                </PixelButton>
+              )}
               <PixelButton variant="quiet" onClick={() => w.set({ panel: 'places' })} aria-keyshortcuts="M">Places</PixelButton>
               <PixelButton variant="quiet" onClick={() => w.set({ panel: 'world' })}>Your Little World</PixelButton>
               <PixelButton variant="quiet" onClick={() => w.set({ panel: 'leave' })}>Leave quietly</PixelButton>
             </nav>
           </header>
 
-          {w.nearby && !w.openPlace && !w.panel && !w.reading && !w.atPond && (
+          {w.nearby && quiet && (
             <PixelPanel className={s.prompt} role="status">
               <KeyCap>E</KeyCap> Visit {w.nearby.label}
             </PixelPanel>
           )}
 
-          {!w.openPlace && !w.panel && !w.reading && !w.atPond && (
+          {quiet && (
             <p className={s.help}>WASD / arrows to wander · click to walk · M for places</p>
           )}
 
@@ -83,6 +94,8 @@ export default function App() {
           {w.panel === 'leave' && <LeavePanel onClose={close} />}
           <PondOverlay />
           <LibraryOverlay />
+          <DecorPanel />
+          <Toast />
         </>
       )}
     </>

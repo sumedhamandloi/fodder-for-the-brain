@@ -17,6 +17,7 @@ export class PreloadScene extends Phaser.Scene {
     }
     this.load.image('tiles', ASSET_ROOT + 'tiles.png');
     this.load.tilemapTiledJSON('main_world', ASSET_ROOT + 'main_world.json');
+    this.load.tilemapTiledJSON('home_garden', ASSET_ROOT + 'home_garden.json');
     this.load.once('complete', () => this.scene.start('main-world'));
     this.load.start();
   }

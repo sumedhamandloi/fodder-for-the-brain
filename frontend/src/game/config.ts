@@ -2,6 +2,7 @@
 import { PreloadScene } from './scenes/PreloadScene';
 import { MainWorldScene } from './scenes/MainWorldScene';
 import { LibraryScene } from './scenes/LibraryScene';
+import { HomeScene } from './scenes/HomeScene';
 
 export const BASE_W = 480;
 export const BASE_H = 270;
@@ -25,7 +26,7 @@ export function createGame(parent: HTMLElement) {
     antialias: false,
     scale: { mode: Phaser.Scale.NONE, zoom: fit.zoom },
     physics: { default: 'arcade', arcade: { debug: false } },
-    scene: [PreloadScene, MainWorldScene, LibraryScene],
+    scene: [PreloadScene, MainWorldScene, LibraryScene, HomeScene],
   });
   document.documentElement.style.setProperty('--px', `${fit.zoom}px`);
   const onResize = () => {

@@ -24,7 +24,10 @@ interface WorldState {
   hotspots: Hotspot[];
   nearby: Hotspot | null;
   openPlace: string | null;
-  location: 'garden' | 'library';
+  location: 'garden' | 'library' | 'home';
+  decorating: { item: string | null } | null;
+  toast: string | null;
+  homeDecor: { id: string; key: string; x: number; y: number }[];
   reading: LibraryView | null;
   atPond: boolean;
   panel: 'places' | 'world' | 'leave' | 'avatar' | null;
@@ -55,6 +58,9 @@ export const useWorld = create<WorldState>((set) => ({
   location: 'garden',
   reading: null,
   atPond: false,
+  decorating: null,
+  toast: null,
+  homeDecor: [],
   panel: null,
   timeMode: 'auto',
   manualPhase: 'afternoon',

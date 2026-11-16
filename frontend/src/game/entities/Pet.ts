@@ -57,7 +57,42 @@ export class Pet extends Phaser.GameObjects.Sprite {
     this.play(`${species}-idle-down`);
   }
 
+  private restAt: Phaser.Math.Vector2 | null = null;
+  private restFrom: Phaser.Math.Vector2 | null = null;
+
+  /** Wander to a spot (e.g. its bed) and nap there until the player walks away. */
+  rest(x: number, y: number, leader: Phaser.Math.Vector2) {
+    this.restAt = new Phaser.Math.Vector2(x, y);
+    this.restFrom = leader.clone();
+  }
+
+  private updateRest(dt: number, leader: Phaser.Math.Vector2): boolean {
+    if (!this.restAt || !this.restFrom) return false;
+    if (leader.distance(this.restFrom) > 56) {
+      this.restAt = this.restFrom = null;
+      this.trail = [leader.clone()];
+      return false;
+    }
+    const d = this.restAt.clone().subtract(new Phaser.Math.Vector2(this.x, this.y));
+    let key: string;
+    if (d.length() > 1.5) {
+      const step = Math.min(d.length(), (60 * dt) / 1000);
+      d.normalize();
+      this.x += d.x * step;
+      this.y += d.y * step;
+      this.setFlipX(d.x < 0);
+      key = `${this.species}-walk-${Math.abs(d.x) > Math.abs(d.y) ? 'side' : d.y < 0 ? 'up' : 'down'}`;
+    } else {
+      key = `${this.species}-sleep-down`;
+    }
+    if (this.anims.currentAnim?.key !== key) this.play(key, true);
+    this.setDepth(this.y);
+    this.shadow.setPosition(Math.round(this.x), Math.round(this.y) - 1);
+    return true;
+  }
+
   update(dt: number, leader: Phaser.Math.Vector2, leaderMoving: boolean) {
+    if (this.updateRest(dt, leader)) return;
     const last = this.trail[this.trail.length - 1];
     if (!last || last.distance(leader) > 3) this.trail.push(leader.clone());
     if (this.trail.length > 60) this.trail.shift();

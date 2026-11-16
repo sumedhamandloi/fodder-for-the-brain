@@ -710,6 +710,26 @@
    "frameWidth": 168,
    "frameHeight": 56,
    "frames": 1
+  },
+  "pet_bed": {
+   "file": "pet_bed.png",
+   "frameWidth": 32,
+   "frameHeight": 20,
+   "frames": 1,
+   "body": [
+    -14,
+    -6,
+    28,
+    5
+   ],
+   "flat": true
+  },
+  "pet_bowl": {
+   "file": "pet_bowl.png",
+   "frameWidth": 14,
+   "frameHeight": 10,
+   "frames": 1,
+   "flat": true
   }
  },
  "ui": {
