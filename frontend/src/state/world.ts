@@ -49,7 +49,8 @@ interface WorldState {
   homeDecor: { id: string; key: string; x: number; y: number }[];
   reading: LibraryView | null;
   atPond: boolean;
-  panel: 'places' | 'world' | 'leave' | 'avatar' | 'pet' | null;
+  panel: 'places' | 'world' | 'leave' | 'avatar' | 'pet' | 'map' | 'peek' | null;
+  social: boolean; // social mode shows the neighbours; private mode is just you (and your pet)
   walkingPet: boolean;
   farm: { plot: number | null } | null;
   dialogue: { npc: string } | null;
@@ -73,7 +74,7 @@ interface WorldState {
 const prefersReduced =
   typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
-const PREF_KEYS = ['timeMode', 'manualPhase', 'reducedMotion', 'seasonMode', 'manualSeason', 'hemisphere', 'weatherMode', 'manualWeather', 'sound', 'learning'] as const;
+const PREF_KEYS = ['timeMode', 'manualPhase', 'reducedMotion', 'seasonMode', 'manualSeason', 'hemisphere', 'weatherMode', 'manualWeather', 'sound', 'learning', 'social'] as const;
 
 function loadPrefs(): Partial<WorldState> {
   try {
@@ -120,6 +121,7 @@ export const useWorld = create<WorldState>((set) => ({
   reducedMotion: !!prefersReduced,
   sound: false,
   learning: true,
+  social: true,
   ...loadPrefs(),
   set: (p) => set(p),
 }));

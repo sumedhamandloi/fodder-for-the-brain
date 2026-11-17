@@ -56,6 +56,11 @@ class SuggestionOut(BaseModel):
     kind: str
 
 
+@app.get("/")
+def root() -> dict:
+    return {"service": "Fodder for the Brain: learning engine", "health": "/api/v1/health", "docs": "/docs"}
+
+
 @app.get("/api/v1/health")
 def health() -> dict:
     return {"ok": True}

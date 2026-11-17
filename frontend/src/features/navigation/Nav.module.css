@@ -1,0 +1,40 @@
+.overlay { position: fixed; inset: 0; z-index: 25; display: grid; place-items: center; padding: 16px; background: rgba(16, 41, 30, 0.4); }
+.mapPanel { width: min(96vw, 820px); max-height: 94vh; overflow-y: auto; }
+.mapWrap { position: relative; width: 100%; margin-bottom: calc(var(--px) * 3); box-shadow: 0 0 0 calc(var(--px) * 1) var(--c-wood-dk); }
+.map { display: block; width: 100%; image-rendering: pixelated; }
+.pin {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  font-family: var(--font-pixel);
+  font-size: 12px;
+  white-space: nowrap;
+  padding: 2px 6px;
+  color: var(--c-ink);
+  background: var(--c-parchment-hi);
+  border: 2px solid var(--c-wood-dk);
+  cursor: pointer;
+}
+.pin::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  transform: translateX(-50%);
+  border: 4px solid transparent;
+  border-top-color: var(--c-wood-dk);
+}
+.pin:hover, .pin:focus-visible { background: #fff3c4; }
+.room { position: relative; width: 100%; aspect-ratio: 480 / 270; box-shadow: 0 0 0 2px var(--c-wood-dk); background: #4b3023; overflow: hidden; margin-bottom: 10px; }
+.roomSky { position: absolute; background: #77b7bd; }
+.layer { position: absolute; display: block; image-rendering: pixelated; }
+.row { display: flex; flex-wrap: wrap; gap: calc(var(--px) * 2); align-items: center; margin-bottom: calc(var(--px) * 3); }
+.here { font-family: var(--font-read); font-size: 15px; color: var(--c-wood); }
+
+.spacesPanel { width: min(96vw, 860px); max-height: 94vh; overflow-y: auto; }
+.lede { font-family: var(--font-read); font-style: italic; font-size: 17px; color: var(--c-wood); margin: 0 0 calc(var(--px) * 3); }
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: calc(var(--px) * 3); }
+.card { display: grid; gap: 8px; align-content: start; background: var(--c-parchment-hi); border: 2px solid var(--c-parchment-lo); padding: 12px; }
+.thumb { width: 100%; image-rendering: pixelated; box-shadow: 0 0 0 2px var(--c-wood-dk); background: #77b7bd; }
+.h3 { margin: 4px 0 0; font-family: var(--font-pixel); font-size: 20px; color: var(--c-forest); }
+.facts { margin: 0; padding-left: 18px; font-family: var(--font-read); font-size: 15px; line-height: 1.5; }
+@media (max-width: 640px) { .cards { grid-template-columns: 1fr; } .pin { font-size: 10px; } }

@@ -22,6 +22,8 @@ import { FarmPanel } from './features/farm/FarmPanel';
 import { DialogueBox, SpaceOverlay } from './features/spaces/Spaces';
 import { NPCS } from './features/npcs/npcs';
 import { LearnedSection } from './features/learning/LearnedSection';
+import { MapPanel } from './features/navigation/Nav';
+import { PeekPanel } from './features/navigation/CottageView';
 import s from './App.module.css';
 
 const PHASE_LABEL: Record<Phase, string> = {
@@ -84,6 +86,15 @@ export default function App() {
                   Decorate
                 </PixelButton>
               )}
+              <PixelButton
+                variant="quiet"
+                aria-pressed={!w.social}
+                title={w.social ? 'Social mode: the neighbours are around' : 'Private mode: just you and your companion'}
+                onClick={() => w.set({ social: !w.social, dialogue: null })}
+              >
+                {w.social ? 'Social' : 'Private'}
+              </PixelButton>
+              <PixelButton variant="quiet" onClick={() => w.set({ panel: 'map' })}>Map</PixelButton>
               <PixelButton variant="quiet" onClick={() => w.set({ panel: 'places' })} aria-keyshortcuts="M">Places</PixelButton>
               <PixelButton variant="quiet" onClick={() => w.set({ panel: 'world' })}>Your Little World</PixelButton>
               <PixelButton variant="quiet" onClick={() => w.set({ panel: 'leave' })}>Leave quietly</PixelButton>
@@ -91,8 +102,11 @@ export default function App() {
           </header>
 
           {w.nearby && quiet && (
-            <PixelPanel className={s.prompt} role="status">
-              <KeyCap>E</KeyCap> {w.nearby.id.startsWith('npc:') ? 'Talk to' : 'Visit'} {w.nearby.label}
+            <PixelPanel className={s.prompt}>
+              {/* the prompt is a real button too: clicking it does exactly what pressing E does */}
+              <button type="button" className={s.promptBtn} onClick={() => bus.emit('place:goto', { id: w.nearby!.id })}>
+                <KeyCap>E</KeyCap> {w.nearby.id.startsWith('npc:') ? 'Talk to' : /^(back|out|sit)/i.test(w.nearby.label) ? '' : 'Visit'} {w.nearby.label}
+              </button>
             </PixelPanel>
           )}
 
@@ -106,6 +120,8 @@ export default function App() {
           {w.panel === 'avatar' && <AvatarPanel onClose={close} />}
           {w.panel === 'leave' && <LeavePanel onClose={close} />}
           {w.panel === 'pet' && <PetPanel onClose={close} />}
+          {w.panel === 'map' && <MapPanel />}
+          {w.panel === 'peek' && <PeekPanel />}
           <PondOverlay />
           <LibraryOverlay />
           <DecorPanel />
@@ -150,6 +166,7 @@ function PlaceCard({ id, onClose }: { id: string; onClose: () => void }) {
 function PlacesMenu({ onClose }: { onClose: () => void }) {
   const hotspots = useWorld((st) => st.hotspots);
   const location = useWorld((st) => st.location);
+  const social = useWorld((st) => st.social);
   return (
     <Modal title="Places" onClose={onClose}>
       <ul className={s.list}>
@@ -161,7 +178,7 @@ function PlacesMenu({ onClose }: { onClose: () => void }) {
           </li>
         ))}
       </ul>
-      {location === 'garden' && (
+      {location === 'garden' && social && (
         <>
           <p className={s.label}>Neighbours</p>
           <ul className={s.list}>

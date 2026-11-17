@@ -65,6 +65,6 @@ test('glasshouse thought experiment, a playground puzzle and the curiosity garde
   await page.getByRole('button', { name: 'Curiosity Garden' }).click();
   const cg = page.getByRole('dialog', { name: 'Curiosity Garden' });
   await expect(cg).toBeVisible({ timeout: 45_000 });
-  await expect(cg.getByRole('listitem')).toHaveCount(8);
+  await expect(cg.locator('ul').last().getByRole('listitem')).toHaveCount(8); // the eight topic beds
   expect(errors).toEqual([]);
 });

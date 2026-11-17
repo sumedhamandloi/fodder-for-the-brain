@@ -9,6 +9,8 @@ import { bus } from '../bus';
 import { currentPhase, currentSeason, currentWeather, useWorld, Season } from '../../state/world';
 import { seasonKey, tilesKey } from '../assets';
 import { WeatherFx } from '../systems/WeatherFx';
+import { fitCamera } from '../systems/fitCamera';
+import { linkTravel, takeArrival } from '../systems/travel';
 import { useSession } from '../../state/session';
 import { available, FOOTPRINT, loadGarden, PlacedDecor, saveGarden } from '../../features/home/decor';
 import { isWet, loadFarm, stageOf, useFarm } from '../../features/farm/farm';
@@ -104,6 +106,9 @@ export class HomeScene extends Phaser.Scene {
       else if (o.type === 'plot') this.plotRects[Number(o.name.split('_')[1])] = new Phaser.Geom.Rectangle(o.x!, o.y!, o.width!, o.height!);
       else if (o.type === 'hotspot') this.spots.push({ id: o.name, label: String(prop(o, 'label')), x: o.x!, y: o.y! });
     }
+    // under the cottage's left window: peek inside without going in
+    const door = this.spots.find((s) => s.id === 'home_door');
+    if (door) this.spots.push({ id: 'home_peek', label: 'Peek through the window', x: door.x - 30, y: door.y });
 
     this.player = new Player(this, spawn.x, spawn.y);
     this.player.refreshLook((this.registry.get('avatarTex') as string) ?? 'player');
@@ -116,7 +121,7 @@ export class HomeScene extends Phaser.Scene {
     this.events.on('update', () => shadow.setPosition(Math.round(this.player.x), Math.round(this.player.y) - 1));
 
     const cam = this.cameras.main;
-    cam.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    fitCamera(this, map.widthInPixels, map.heightInPixels);
     cam.startFollow(this.player, true, 0.12, 0.12);
     cam.setRoundPixels(true);
 
@@ -156,6 +161,7 @@ export class HomeScene extends Phaser.Scene {
     const onWake = () => (currentSeason(useWorld.getState()) !== this.season ? this.restartForSeason(true) : this.arrive());
     this.events.on('wake', onWake);
     this.events.once('shutdown', () => this.events.off('wake', onWake));
+    this.unsub.push(linkTravel(this, () => this.arrive()));
     this.events.once('shutdown', () => this.unsub.forEach((u) => u()));
     (window as unknown as { __fodderHome: unknown }).__fodderHome = { scene: this };
     this.arrive();
@@ -383,6 +389,10 @@ export class HomeScene extends Phaser.Scene {
     const w = useWorld.getState();
     if (id === 'home_gate') return this.leave();
     if (id === 'home_beds') return w.set({ farm: { plot: null } });
+    if (id === 'home_peek') {
+      this.player.tend('up');
+      return w.set({ panel: 'peek' });
+    }
     if (id === 'home_door') {
       w.set({ nearby: null, decorating: null });
       const go = () => this.scene.switch('cottage');
@@ -410,10 +420,12 @@ export class HomeScene extends Phaser.Scene {
     const gate = this.spots.find((s) => s.id === 'home_gate')!;
     const resume = this.registry.get('resume:home') as { x: number; y: number } | undefined;
     this.registry.remove('resume:home');
+    takeArrival(this); // map travel arrives at the garden gate
     const fromDoor = this.registry.get('arrive:home') === 'door';
     this.registry.remove('arrive:home');
     const door = this.spots.find((s) => s.id === 'home_door')!;
     const at = resume ?? (fromDoor ? { x: door.x, y: door.y + 12 } : { x: gate.x, y: gate.y - 22 });
+    this.player.standUp();
     this.player.setPosition(at.x, at.y);
     this.player.route = [];
     this.pet.setPosition(gate.x - 16, gate.y - 16);

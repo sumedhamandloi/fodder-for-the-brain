@@ -11,6 +11,8 @@ import { Npc } from '../entities/Npc';
 import { NPCS, npcById } from '../../features/npcs/npcs';
 import { seasonKey, tilesKey } from '../assets';
 import { WeatherFx } from '../systems/WeatherFx';
+import { fitCamera } from '../systems/fitCamera';
+import { linkTravel, takeArrival } from '../systems/travel';
 import { useSession } from '../../state/session';
 import { composeAvatar } from '../../features/avatar/compose';
 import type { AvatarConfig } from '../../features/avatar/types';
@@ -64,6 +66,8 @@ export class MainWorldScene extends Phaser.Scene {
   private chimney?: Phaser.Math.Vector2;
   private unsub: (() => void)[] = [];
   private npcs: Npc[] = [];
+  private seats: Phaser.Math.Vector2[] = [];
+  private dockAt?: Phaser.Math.Vector2;
 
   constructor() {
     super('main-world');
@@ -79,6 +83,7 @@ export class MainWorldScene extends Phaser.Scene {
     this.cherries = [];
     this.unsub = [];
     this.npcs = [];
+    this.seats = [];
     this.season = currentSeason(useWorld.getState());
     this.manifest = this.cache.json.get('manifest') as Manifest;
     if (!this.anims.exists('player-idle-down')) registerPlayerAnims(this);
@@ -133,6 +138,8 @@ export class MainWorldScene extends Phaser.Scene {
         for (const l of BUILDING_LIGHTS[key] ?? []) lights.push({ x: x + l.x, y: y + l.y, size: l.size });
         if (key === 'bld_cottage') this.chimney = new Phaser.Math.Vector2(x + 23, y - 99);
       }
+      if (key === 'bench') this.seats.push(new Phaser.Math.Vector2(x, y));
+      if (key === 'dock') this.dockAt = new Phaser.Math.Vector2(x, y);
       if (key === 'lantern') {
         litables.push({ setLit: (lit) => s.setFrame(lit ? 1 : 0) });
         lights.push({ x, y: y - 24, size: 's', strength: 0.8 }, { x, y: y - 4, size: 'm', strength: 0.4 });
@@ -194,7 +201,7 @@ export class MainWorldScene extends Phaser.Scene {
     this.npcs = NPCS.map((n) => new Npc(this, n.tile[0] * TS, n.tile[1] * TS, n.id, () => useWorld.getState().reducedMotion));
 
     const cam = this.cameras.main;
-    cam.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
+    fitCamera(this, map.widthInPixels, map.heightInPixels);
     cam.startFollow(this.player, true, 0.12, 0.12);
     cam.setRoundPixels(true);
 
@@ -217,16 +224,26 @@ export class MainWorldScene extends Phaser.Scene {
       const s = useWorld.getState();
       if (isBusy(s) || !inWorld() || !this.sys.isActive()) return;
       const npc = objs.map((o) => o.getData('npc') as string | undefined).find(Boolean);
-      if (npc) return this.goTo(`npc:${npc}`, true);
+      if (npc && s.social) return this.goTo(`npc:${npc}`, true);
       const hs = objs.map((o) => o.getData('hotspot') as string | undefined).find(Boolean);
       if (hs) this.goTo(hs, true);
       else this.walkTo(p.worldX, p.worldY);
     });
 
     this.unsub.push(bus.on('place:goto', ({ id }) => this.sys.isActive() && this.goTo(id, true)));
+    const arriveAt = (spot: string | undefined) => {
+      const h = this.hotspots.find((p) => p.id === spot);
+      this.player.standUp();
+      this.player.route = [];
+      if (h) this.player.setPosition(h.x, h.y + 14);
+      this.pet.setPosition(this.player.x - 16, this.player.y + 4);
+    };
+    this.unsub.push(linkTravel(this, arriveAt));
     const onWake = () => {
-      // step out onto the path in front of the door you came through
-      this.player.setPosition(this.player.x, this.player.y + 10);
+      const spot = takeArrival(this);
+      if (spot !== undefined) arriveAt(spot);
+      // otherwise step out onto the path in front of the door you came through
+      else this.player.setPosition(this.player.x, this.player.y + 10);
       this.player.facing = 'down';
       if (currentSeason(useWorld.getState()) !== this.season) return this.restartForSeason();
       useWorld.getState().set({ location: 'garden', hotspots: this.hotspots.map(({ id, label }) => ({ id, label })), nearby: null });
@@ -327,10 +344,11 @@ export class MainWorldScene extends Phaser.Scene {
   private targets(): HotspotPoint[] {
     return [
       ...this.hotspots,
-      ...this.npcs.map((n) => {
+      ...this.npcs.filter(() => useWorld.getState().social).map((n) => {
         const info = npcById(n.npcId)!;
         return { id: `npc:${n.npcId}`, label: `${info.name}, ${info.role}`, x: n.x, y: n.y + 10 };
       }),
+      ...this.seats.map((b, i) => ({ id: `seat:${i}`, label: 'Sit on the bench', x: b.x, y: b.y + 8 })),
     ];
   }
 
@@ -342,6 +360,13 @@ export class MainWorldScene extends Phaser.Scene {
       if (open) this.openPlace(id);
       return;
     }
+    if (id.startsWith('npc:')) {
+      // keep a polite distance: stop a step to the side of the neighbour, never on top of them
+      const npc = this.npcs.find((n) => `npc:${n.npcId}` === id)!;
+      const side = this.player.x < npc.x ? -1 : 1;
+      this.walkTo(npc.x + side * 22, npc.y + 1, open ? () => this.openPlace(id) : undefined);
+      return;
+    }
     this.walkTo(h.x, h.y + 6, open ? () => this.openPlace(id) : undefined);
   }
 
@@ -349,12 +374,26 @@ export class MainWorldScene extends Phaser.Scene {
     if (id === 'library') return this.enterInterior('library');
     if (id === 'cottage') return this.enterInterior('home');
     if (id === 'pond') {
+      // sit at the end of the dock, feet over the water, facing the pond
+      if (this.dockAt) this.player.sitAt(this.dockAt.x + 16, this.dockAt.y - 21, 'side', false, this.dockAt.y + 1);
       useWorld.getState().set({ atPond: true });
+      return;
+    }
+    if (id.startsWith('seat:')) {
+      const b = this.seats[Number(id.slice(5))];
+      this.player.sitAt(b.x, b.y - 9, 'down', false, b.y + 1);
       return;
     }
     if (id.startsWith('npc:')) {
       const npc = this.npcs.find((n) => `npc:${n.npcId}` === id);
       npc?.faceToward(this.player.feet);
+      if (npc) {
+        // and turn to face them
+        this.player.facing = Math.abs(npc.x - this.player.x) > Math.abs(npc.y - this.player.y) ? 'side' : npc.y < this.player.y ? 'up' : 'down';
+        this.player.flipSide = npc.x < this.player.x;
+        this.player.setFlipX(this.player.facing === 'side' && this.player.flipSide);
+        this.player.play(`player-idle-${this.player.facing}`, true);
+      }
       if (npc) npc.paused = true;
       useWorld.getState().set({ dialogue: { npc: id.slice(4) } });
       return;
@@ -505,6 +544,12 @@ export class MainWorldScene extends Phaser.Scene {
 
     const s0 = useWorld.getState();
     for (const n of this.npcs) {
+      // private mode: the neighbours simply aren't there
+      if (n.visible !== s0.social) {
+        n.setVisible(s0.social);
+        (this.children.getByName(`npc-shadow-${n.npcId}`) as Phaser.GameObjects.Ellipse | null)?.setVisible(s0.social);
+      }
+      if (!s0.social) continue;
       if (n.paused && !s0.dialogue) n.paused = false;
       n.update(dt);
     }

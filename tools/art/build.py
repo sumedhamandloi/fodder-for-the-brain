@@ -87,6 +87,9 @@ def main():
         json.dump(manifest, f, indent=1)
     print(f"[art] {len(groups)} sprite sheets, tileset, map -> {OUT}")
 
+    save_world_map(m, groups, ts)
+    save_world_map(homegen.build(), groups, ts, "home_map.png")
+
     if "--preview" in sys.argv:
         preview(m, groups, ts, night="--night" in sys.argv)
 
@@ -144,6 +147,24 @@ def build_avatar():
     for npc, cfg in avatar.NPCS.items():
         save(f"npc_{npc}", sheet(compose_avatar(cats, cfg), 6))
     print(f"[art] avatar: {sum(len(v[0]) for v in cats.values())} layer variants")
+
+
+def save_world_map(m, groups, ts, name="world_map.png"):
+    """The in-game map: the whole Main World drawn at half size (nearest-neighbour, so it stays pixel art)."""
+    W, H = m["width"], m["height"]
+    img = Image.new("RGBA", (W * 16, H * 16), (16, 41, 30, 255))
+    for layer in m["layers"][:2]:
+        for i, gid in enumerate(layer["data"]):
+            if gid:
+                t = gid - 1
+                tile = ts.im.crop(((t % 16) * 16, (t // 16) * 16, (t % 16) * 16 + 16, (t // 16) * 16 + 16))
+                img.alpha_composite(tile, ((i % W) * 16, (i // W) * 16))
+    for o in sorted(m["layers"][3]["objects"], key=lambda o: o["y"]):
+        f = groups[o["name"]][0][0].im
+        if any(p["name"] == "flip" and p["value"] for p in o["properties"]):
+            f = f.transpose(Image.FLIP_LEFT_RIGHT)
+        img.alpha_composite(f, (o["x"] - f.width // 2, o["y"] - f.height))
+    img.resize((W * 8, H * 8), Image.NEAREST).save(os.path.join(OUT, name))
 
 
 def preview(m, groups, ts, night=False):

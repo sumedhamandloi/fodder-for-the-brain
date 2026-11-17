@@ -5,6 +5,7 @@ import { linkPet, petKey } from '../systems/petLink';
 import { bus } from '../bus';
 import { currentPhase, currentSeason, currentWeather, isBusy, useWorld, Phase } from '../../state/world';
 import { useSession } from '../../state/session';
+import { linkTravel, takeArrival } from '../systems/travel';
 
 export interface InteriorSpot {
   id: string;
@@ -126,6 +127,7 @@ export class InteriorScene extends Phaser.Scene {
       }),
     );
     this.unsub.push(useWorld.subscribe(() => this.sys.isActive() && this.paintSky()));
+    this.unsub.push(linkTravel(this, () => this.arrive()));
     this.game.events.on('avatar-changed', (key: string) => this.player?.active && this.player.refreshLook(key), this);
     const onWake = () => this.arrive();
     this.events.on('wake', onWake);
@@ -163,12 +165,41 @@ export class InteriorScene extends Phaser.Scene {
 
   private arrive() {
     const c = this.cfg;
+    takeArrival(this);
+    this.player.standUp();
     this.player.setPosition(c.spawn[0], c.spawn[1]);
     this.pet.setPosition(c.spawn[0] - 18, c.spawn[1] + 6);
     this.player.route = [];
     useWorld.getState().set({ location: c.location, hotspots: c.spots.map(({ id, label }) => ({ id, label })), nearby: null });
     this.paintSky();
     this.cameras.main.fadeIn(useWorld.getState().reducedMotion ? 0 : 400, 16, 41, 30);
+  }
+
+  /** Little "z"s drifting up while you nap. They stop when you get up. */
+  snooze(x: number, y: number) {
+    if (useWorld.getState().reducedMotion) return;
+    const ev = this.time.addEvent({
+      delay: 1400, loop: true,
+      callback: () => {
+        if (this.player.pose?.kind !== 'sleep') return ev.remove();
+        const z = this.add.image(x, y, 'fx_zzz').setDepth(9100);
+        this.tweens.add({ targets: z, y: y - 14, x: x + 4, alpha: 0, duration: 2000, onComplete: () => z.destroy() });
+      },
+    });
+  }
+
+  /** Steam curling up from the kettle for a little while. */
+  steam(x: number, y: number) {
+    if (useWorld.getState().reducedMotion) return;
+    for (let i = 0; i < 6; i++) {
+      this.time.delayedCall(i * 500, () => {
+        const p = this.add.sprite(x + Phaser.Math.Between(-1, 1), y, 'fx_smoke', 0).setDepth(9100).setScale(0.6);
+        this.tweens.add({
+          targets: p, y: y - 18, x: p.x + Phaser.Math.Between(-3, 3), alpha: 0, duration: 1800,
+          onUpdate: (tw) => p.setFrame(Math.min(3, Math.floor(tw.progress * 4))), onComplete: () => p.destroy(),
+        });
+      });
+    }
   }
 
   walkTo(x: number, y: number, onArrive?: () => void) {

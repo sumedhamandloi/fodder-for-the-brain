@@ -5,6 +5,7 @@ type Events = {
   'player:freeze': { frozen: boolean };
   'pet:act': { kind: 'pet' | 'treat' | 'ball' | 'walk' };
   'farm:changed': Record<string, never>;
+  travel: { scene: string; spot?: string };
 };
 
 type Handler<K extends keyof Events> = (payload: Events[K]) => void;

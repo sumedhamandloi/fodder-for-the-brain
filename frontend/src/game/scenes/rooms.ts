@@ -33,7 +33,20 @@ export class LibraryScene extends InteriorScene {
         { id: 'shelf_stories', label: 'Stories & Making shelf', x: 118, y: 166, open: () => set({ reading: { kind: 'shelf', id: 'shelf_stories' } }) },
         { id: 'shelf_mind', label: 'Mind & Meaning shelf', x: 340, y: 166, open: () => set({ reading: { kind: 'shelf', id: 'shelf_mind' } }) },
         { id: 'desk', label: "Today's read", x: 98, y: 230, open: () => set({ reading: { kind: 'desk' } }) },
-        { id: 'chair', label: 'Your saved ideas', x: 388, y: 230, open: () => set({ reading: { kind: 'saved' } }) },
+        {
+          id: 'chair', label: 'Your saved ideas (the armchair)', x: 388, y: 230,
+          open: (s) => {
+            s.player.sitAt(388, 198, 'down', false, 219);
+            set({ reading: { kind: 'saved' } });
+          },
+        },
+        {
+          id: 'seat', label: 'The window seat', x: 240, y: 166,
+          open: (s) => {
+            s.player.sitAt(240, 128, 'down', false, 130);
+            set({ toast: 'You curl up on the window seat and watch the weather for a while.' });
+          },
+        },
         { id: 'exit', label: 'Back to the garden', x: 240, y: 258, open: (s) => s.leave() },
       ],
     });
@@ -75,10 +88,24 @@ export class CottageScene extends InteriorScene {
       spawn: [240, 252],
       exitTo: 'home',
       spots: [
-        { id: 'c_bed', label: 'Your bed', x: 80, y: 168, open: () => set({ toast: 'You stretch out under the patchwork quilt for a moment. No alarms here, ever.' }) },
-        { id: 'c_window', label: 'The window', x: 240, y: 166, open: () => set({ toast: windowView() }) },
-        { id: 'c_stove', label: 'The stove', x: 352, y: 166, open: () => set({ toast: 'The kettle hums. Tea will be ready whenever you are.' }) },
-        { id: 'c_shelf', label: 'Your shelves of saved ideas', x: 430, y: 166, open: () => set({ reading: { kind: 'saved' } }) },
+        {
+          id: 'c_bed', label: 'Your bed', x: 80, y: 168,
+          open: (s) => {
+            s.player.sleepAt(47, 118, 5);
+            s.snooze(62, 100);
+            set({ toast: 'You tuck in under the patchwork quilt. No alarms here, ever. Move whenever you’re ready to get up.' });
+          },
+        },
+        { id: 'c_window', label: 'The window', x: 240, y: 166, open: (s) => { s.player.tend('up'); set({ toast: windowView() }); } },
+        {
+          id: 'c_stove', label: 'The stove', x: 352, y: 166,
+          open: (s) => {
+            s.player.tend('up');
+            s.steam(360, 98);
+            set({ toast: 'You put the kettle on. It hums, then sings. Tea is ready whenever you are.' });
+          },
+        },
+        { id: 'c_shelf', label: 'Your shelves of saved ideas', x: 430, y: 166, open: (s) => { s.player.tend('up'); set({ reading: { kind: 'saved' } }); } },
         { id: 'c_table', label: 'The harvest basket', x: 330, y: 230, open: () => set({ farm: { plot: null } }) },
         {
           id: 'c_pet', label: 'The pet bed', x: 92, y: 236,
@@ -110,9 +137,9 @@ export class GlasshouseScene extends InteriorScene {
       spawn: [240, 252],
       exitTo: 'main-world',
       spots: [
-        { id: 'g_table', label: 'The thought-experiment table', x: 240, y: 232, open: () => set({ space: 'glasshouse', spaceTab: 'experiments' }) },
-        { id: 'g_bench', label: 'The quiet bench', x: 400, y: 232, open: () => set({ space: 'glasshouse', spaceTab: 'reflect' }) },
-        { id: 'g_plants', label: 'Two seedlings side by side', x: 120, y: 166, open: () => set({ space: 'glasshouse', spaceTab: 'connect' }) },
+        { id: 'g_table', label: 'The thought-experiment table', x: 240, y: 232, open: (s) => { s.player.tend('up'); set({ space: 'glasshouse', spaceTab: 'experiments' }); } },
+        { id: 'g_bench', label: 'The quiet bench', x: 400, y: 232, open: (s) => { s.player.sitAt(400, 207, 'down', false, 221); set({ space: 'glasshouse', spaceTab: 'reflect' }); } },
+        { id: 'g_plants', label: 'Two seedlings side by side', x: 120, y: 166, open: (s) => { s.player.tend('up'); set({ space: 'glasshouse', spaceTab: 'connect' }); } },
         { id: 'g_door', label: 'Back to the garden', x: 240, y: 258, open: (s) => s.leave() },
       ],
     });
