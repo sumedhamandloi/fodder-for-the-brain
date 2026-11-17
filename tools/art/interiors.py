@@ -87,11 +87,7 @@ def arched_window(c, x0, y0, w, h):
             dy = y - (y0 + r)
             if dy < 0 and (x + 0.5 - cx) ** 2 + dy ** 2 > r * r:
                 continue
-            t = (y - y0) / h
-            col = "n0" if t < 0.35 else ("n1" if t < 0.75 else "b0")
-            if (x * 3 + y * 7) % 41 == 0 or (x + 2 * y) % 53 == 0:
-                col = "b1"
-            c.px(x, y, col)
+            pass  # glass left transparent: the engine paints the live sky (time, season, weather) behind it
     # distant treeline silhouette
     for x in range(x0, x0 + w):
         top = y0 + h - 18 + int(4 * h01(x // 6, 0, 3)) + (x % 6 in (0, 5)) * 2
@@ -254,8 +250,194 @@ def raindrop(i):
     return c
 
 
+def plaster_wall(c, x0, y0, x1, y1):
+    for y in range(y0, y1):
+        for x in range(x0, x1):
+            c.px(x, y, "e4" if h01(x, y, 41) < 0.06 else "c0")
+    for x in range(x0, x1, 64):
+        c.rect(x, y0, 4, y1 - y0, "w2"), c.vline(x + 3, y0, y1 - 1, "w1")
+    c.rect(x0, y0 + 40, x1 - x0, 3, "w2"), c.hline(x0, x1 - 1, y0 + 42, "w1")
+    # wainscot
+    for y in range(y1 - 34, y1):
+        for x in range(x0, x1):
+            c.px(x, y, "w1" if x % 10 == 0 else ("w3" if x % 10 == 1 else "w2"))
+    c.rect(x0, y1 - 36, x1 - x0, 2, "w4")
+
+
+def square_window(c, x0, y0, w, h, curtains="l1"):
+    c.rect(x0 - 4, y0 - 4, w + 8, h + 8, "w1")
+    c.rect(x0 - 3, y0 - 3, w + 6, h + 6, "w3")
+    for y in range(y0, y0 + h):
+        for x in range(x0, x0 + w):
+            c.pix[x, y] = (0, 0, 0, 0)  # live sky shows through
+    c.vline(x0 + w // 2, y0, y0 + h - 1, "w2"), c.hline(x0, x0 + w - 1, y0 + h // 2, "w2")
+    c.rect(x0 - 6, y0 + h + 3, w + 12, 4, "w3"), c.hline(x0 - 6, x0 + w + 5, y0 + h + 3, "w4")
+    # curtains
+    dark = {"l1": "l0", "p2": "p1", "y1": "y0"}[curtains]
+    for side in (x0 - 14, x0 + w + 4):
+        c.rect(side, y0 - 6, 10, h + 14, curtains)
+        for x in range(side, side + 10, 3):
+            c.vline(x, y0 - 6, y0 + h + 7, dark)
+    c.rect(x0 - 16, y0 - 9, w + 32, 3, "w2")
+
+
+def quilt_bed(c, x0, y0):
+    c.rect(x0, y0, 112, 14, "w2"), c.rect(x0, y0, 112, 3, "w3")  # headboard
+    c.rect(x0 + 2, y0 + 14, 108, 36, "c1")
+    for k in range(6):
+        for j in range(3):
+            col = ["p1", "y1", "l1", "p2", "g6", "b3"][(k + j * 2) % 6]
+            c.rect(x0 + 4 + k * 18, y0 + 24 + j * 9, 16, 8, col)
+    c.rect(x0 + 8, y0 + 16, 30, 8, "c1"), c.rect(x0 + 74, y0 + 16, 30, 8, "c1")
+    c.hline(x0 + 8, x0 + 37, y0 + 23, "e4"), c.hline(x0 + 74, x0 + 103, y0 + 23, "e4")
+    c.rect(x0, y0 + 50, 112, 6, "w1")
+    for x in (x0, x0 + 108):
+        c.rect(x, y0 + 50, 4, 10, "w0")
+
+
+def stove(c, x0, y0):
+    c.rect(x0 + 18, 0, 8, y0, "s0"), c.vline(x0 + 19, 0, y0 - 1, "s1")  # pipe
+    c.rect(x0, y0, 44, 40, "s0")
+    c.rect(x0 + 2, y0 + 2, 40, 3, "s1")
+    c.rect(x0 + 8, y0 + 12, 28, 18, "o")
+    c.rect(x0 + 10, y0 + 14, 24, 14, "r0")
+    for x in range(x0 + 11, x0 + 33, 3):
+        c.vline(x, y0 + 20, y0 + 27, "y1"), c.px(x + 1, y0 + 18, "r2")
+    c.rect(x0 + 4, y0 + 40, 4, 6, "s0"), c.rect(x0 + 36, y0 + 40, 4, 6, "s0")
+    # kettle
+    c.ellipse(x0 + 30, y0 - 4, 6, 4, "b1"), c.ellipse(x0 + 29, y0 - 5, 4, 2, "b2"), c.line(x0 + 36, y0 - 6, x0 + 39, y0 - 9, "b1")
+
+
+def wall_shelves(c, x0, y0, w):
+    r = random.Random(5)
+    for k in range(3):
+        y = y0 + k * 24
+        c.rect(x0, y + 18, w, 3, "w3"), c.hline(x0, x0 + w - 1, y + 20, "w1")
+        x = x0 + 2
+        while x < x0 + w - 8:
+            kind = r.choice(["jar", "jar", "plant", "book"])
+            if kind == "jar":
+                col = r.choice(["y1", "fr", "l1", "g6", "r2"])
+                c.rect(x, y + 10, 6, 8, "b4"), c.rect(x + 1, y + 12, 4, 6, col), c.rect(x, y + 8, 6, 2, "w2")
+                x += 9
+            elif kind == "plant":
+                c.rect(x, y + 12, 7, 6, "r1"), c.ellipse(x + 3, y + 9, 5, 4, "g4"), c.px(x + 2, y + 7, "g7")
+                x += 10
+            else:
+                for i in range(3):
+                    c.rect(x + i * 2, y + 6, 2, 12, r.choice(["b1", "fr", "g3", "y0"]))
+                x += 8
+
+
+def cottage_room():
+    c = Canvas(W, H)
+    plaster_wall(c, 0, 0, W, FLOOR_Y)
+    c.rect(0, 0, W, 5, "w2")
+    floor(c)
+    quilt_bed(c, 24, 94)
+    square_window(c, 204, 28, 72, 64, curtains="l1")
+    stove(c, 330, 104)
+    wall_shelves(c, 392, 40, 76)
+    # hanging dried herbs and a little framed picture
+    for x in range(140, 180, 8):
+        c.vline(x, 6, 18, "w2"), c.ellipse(x, 22, 2.5, 5, "g4"), c.px(x, 20, "l1")
+    c.rect(300, 30, 18, 14, "w1"), c.rect(302, 32, 14, 10, "b2"), c.rect(302, 38, 14, 4, "g4"), c.px(309, 34, "y2")
+    rug(c, 240, 214, 104, 32)
+    c.rect(214, 254, 52, 12, "e1"), c.rect(216, 256, 48, 8, "e2")
+    for x in range(218, 262, 4):
+        c.vline(x, 257, 262, "e1")
+    return c
+
+
+def cottage_table():
+    c = Canvas(72, 44)
+    c.rect(2, 10, 68, 6, "w3"), c.hline(2, 69, 10, "w4"), c.hline(2, 69, 15, "w1")
+    for x in (6, 62):
+        c.rect(x, 16, 4, 26, "w1")
+    # basket of produce
+    c.ellipse(36, 8, 12, 4, "w2"), c.rect(24, 4, 24, 6, "w2")
+    for i in range(24, 48, 3):
+        c.vline(i, 4, 9, "w3")
+    for (x, col) in [(28, "fr"), (33, "r2"), (38, "y1"), (43, "fb")]:
+        c.disc(x, 2, 2.5, col)
+    c.rect(54, 2, 4, 8, "c1"), c.px(55, 1, "y2")  # candle
+    c.outline("w0")
+    return c
+
+
+def glasshouse_room():
+    c = Canvas(W, H)
+    # glass back wall: transparent panes in a dark green-grey frame
+    for y in range(0, FLOOR_Y):
+        for x in range(W):
+            c.pix[x, y] = (0, 0, 0, 0)
+    for x in range(0, W, 40):
+        c.rect(x, 0, 4, FLOOR_Y, "s0"), c.vline(x + 1, 0, FLOOR_Y - 1, "s1")
+    for y in (0, 48, 100):
+        c.rect(0, y, W, 3, "s0"), c.hline(0, W - 1, y + 1, "s1")
+    # low brick plinth
+    for y in range(FLOOR_Y - 26, FLOOR_Y):
+        for x in range(W):
+            c.px(x, y, "r1" if ((x + ((y // 4) % 2) * 6) % 12 and y % 4) else "r0")
+    c.hline(0, W - 1, FLOOR_Y - 26, "s3")
+    # stone tile floor
+    for y in range(FLOOR_Y, H):
+        for x in range(W):
+            tx, ty = (x + ((y - FLOOR_Y) // 16) * 8) // 16, (y - FLOOR_Y) // 16
+            col = "s3" if (tx + ty) % 2 else "s2"
+            if (x + ((y - FLOOR_Y) // 16) * 8) % 16 == 0 or (y - FLOOR_Y) % 16 == 0:
+                col = "s1"
+            if h01(x, y, 61) < 0.03:
+                col = "g4"  # moss between the stones
+            c.px(x, y, col)
+    # planting benches along the glass with pots and greenery
+    r = random.Random(8)
+    for bx in (12, 250):
+        c.rect(bx, 96, 218, 6, "w3"), c.hline(bx, bx + 217, 96, "w4"), c.rect(bx, 102, 218, 22, "w2")
+        for x in range(bx + 8, bx + 210, 22):
+            c.rect(x, 86, 12, 10, "r1"), c.hline(x, x + 11, 86, "r2")
+            foliage(c, x + 6, 74, r.randint(7, 10), r.randint(9, 13), ["g2", "g3", "g4", "g6", "g7"], x, npuff=6, prad=(3, 5), clumps=12,
+                    accent=(["p2", "fr", "y1", "l1", "fw"], r.randint(0, 4), "c1"))
+    # hanging plants
+    for x in (60, 180, 300, 420):
+        c.vline(x, 3, 18, "w1")
+        c.rect(x - 6, 18, 12, 7, "r1")
+        for i in range(10):
+            c.px(x - 6 + r.randint(0, 12), 25 + r.randint(0, 14), r.choice(["g3", "g4", "g6"]))
+    c.rect(214, 254, 52, 12, "e1"), c.rect(216, 256, 48, 8, "e2")
+    return c
+
+
+def potting_table():
+    c = Canvas(88, 44)
+    c.rect(2, 12, 84, 6, "w3"), c.hline(2, 85, 12, "w4"), c.hline(2, 85, 17, "w1")
+    for x in (6, 78):
+        c.rect(x, 18, 4, 24, "w1")
+    c.rect(10, 4, 12, 8, "r1"), c.ellipse(16, 2, 5, 3, "g6"), c.px(15, 0, "g8")  # seedling
+    c.rect(60, 4, 12, 8, "r1"), c.ellipse(66, 2, 5, 3, "g4"), c.px(66, 0, "p2")
+    c.poly([(34, 4), (52, 4), (54, 12), (32, 12)], "s2"), c.line(52, 6, 58, 2, "s1")  # watering can
+    c.rect(36, 2, 6, 3, "c1")  # a notebook of thought experiments
+    c.outline("w0")
+    return c
+
+
+def garden_bench():
+    c = Canvas(48, 28)
+    c.rect(2, 4, 44, 4, "w3"), c.hline(2, 45, 4, "w4")
+    c.rect(2, 14, 44, 5, "w2"), c.hline(2, 45, 14, "w4")
+    for x in (5, 41):
+        c.rect(x, 4, 3, 22, "s0")
+    c.outline("o")
+    return c
+
+
 def build():
     return {
+        "room_cottage": ([cottage_room()], {}),
+        "cottage_table": ([cottage_table()], {}),
+        "room_glasshouse": ([glasshouse_room()], {}),
+        "gh_table": ([potting_table()], {}),
+        "gh_bench": ([garden_bench()], {}),
         "room_library": ([library_room()], {}),
         "lib_desk": ([lib_desk()], {}),
         "lib_chair": ([lib_chair()], {}),

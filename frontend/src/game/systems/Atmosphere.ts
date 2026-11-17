@@ -57,6 +57,19 @@ export class Atmosphere {
     }
   }
 
+  /** Add a light after the scene is built (e.g. a lantern placed while decorating). Destroy the image to remove it. */
+  addLight(l: LightSource): Phaser.GameObjects.Image {
+    const g = this.scene.add
+      .image(l.x, l.y, `fx_glow_${l.size}`)
+      .setBlendMode(Phaser.BlendModes.ADD)
+      .setDepth(9001)
+      .setData('strength', l.strength ?? 1);
+    g.setAlpha(this.phase ? TINT[this.phase].glow * (l.strength ?? 1) : 0);
+    this.glows.push(g);
+    g.once('destroy', () => (this.glows = this.glows.filter((x) => x !== g)));
+    return g;
+  }
+
   apply(phase: Phase, reducedMotion: boolean, instant = false) {
     if (phase === this.phase && !instant) return;
     const first = this.phase === null;

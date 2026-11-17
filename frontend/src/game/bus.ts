@@ -3,6 +3,8 @@ type Events = {
   'place:goto': { id: string };
   'place:opened': { id: string };
   'player:freeze': { frozen: boolean };
+  'pet:act': { kind: 'pet' | 'treat' | 'ball' | 'walk' };
+  'farm:changed': Record<string, never>;
 };
 
 type Handler<K extends keyof Events> = (payload: Events[K]) => void;

@@ -1,7 +1,7 @@
 ﻿import Phaser from 'phaser';
 import { PreloadScene } from './scenes/PreloadScene';
 import { MainWorldScene } from './scenes/MainWorldScene';
-import { LibraryScene } from './scenes/LibraryScene';
+import { CottageScene, GlasshouseScene, LibraryScene } from './scenes/rooms';
 import { HomeScene } from './scenes/HomeScene';
 
 export const BASE_W = 480;
@@ -26,7 +26,7 @@ export function createGame(parent: HTMLElement) {
     antialias: false,
     scale: { mode: Phaser.Scale.NONE, zoom: fit.zoom },
     physics: { default: 'arcade', arcade: { debug: false } },
-    scene: [PreloadScene, MainWorldScene, LibraryScene, HomeScene],
+    scene: [PreloadScene, MainWorldScene, LibraryScene, HomeScene, CottageScene, GlasshouseScene],
   });
   document.documentElement.style.setProperty('--px', `${fit.zoom}px`);
   const onResize = () => {

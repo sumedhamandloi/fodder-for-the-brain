@@ -27,6 +27,8 @@
   color: var(--c-ink);
 }
 .cardBtn:hover { background: #fff3c4; }
+.pick { display: grid; gap: 4px; }
+.because { font-family: var(--font-read); font-style: italic; font-size: 14px; color: #8e4c64; padding-left: calc(var(--px) * 2); }
 .cardMeta { font-family: var(--font-pixel); font-size: calc(var(--px) * 4); color: var(--c-moss); }
 .cardTitle { font-family: var(--font-read); font-weight: 600; font-size: clamp(17px, calc(var(--px) * 6), 21px); }
 .cardHook { font-family: var(--font-read); font-size: clamp(15px, calc(var(--px) * 5), 17px); color: #5a3b2a; }

@@ -94,11 +94,11 @@ export function SignInScreen() {
 const TOPICS = ['Science', 'Psychology', 'Philosophy', 'History', 'Nature', 'Art', 'Literature', 'Technology'];
 const SPECIES: { id: PetRecord['species']; label: string; ready: boolean }[] = [
   { id: 'frog', label: 'Frog', ready: true },
-  { id: 'cat', label: 'Cat', ready: false },
-  { id: 'dog', label: 'Dog', ready: false },
-  { id: 'rabbit', label: 'Rabbit', ready: false },
-  { id: 'duck', label: 'Duck', ready: false },
-  { id: 'hedgehog', label: 'Hedgehog', ready: false },
+  { id: 'cat', label: 'Cat', ready: true },
+  { id: 'dog', label: 'Dog', ready: true },
+  { id: 'rabbit', label: 'Rabbit', ready: true },
+  { id: 'duck', label: 'Duck', ready: true },
+  { id: 'hedgehog', label: 'Hedgehog', ready: true },
 ];
 
 export function Onboarding() {
@@ -173,7 +173,11 @@ export function Onboarding() {
                   className={s.speciesCard}
                   onClick={() => setPet({ ...pet, species: sp.id })}
                 >
-                  {sp.ready ? <span className={s.frog} aria-hidden="true" /> : <span className={s.soon} aria-hidden="true">?</span>}
+                  {sp.ready ? (
+                    <span className={s.frog} style={{ backgroundImage: `url('/assets/pet_${sp.id}.png')` }} aria-hidden="true" />
+                  ) : (
+                    <span className={s.soon} aria-hidden="true">?</span>
+                  )}
                   {sp.label}
                   {!sp.ready && <small>arriving soon</small>}
                 </button>
@@ -220,7 +224,7 @@ export function Onboarding() {
             </div>
             <div className={s.peek} aria-hidden="true">
               <AvatarPreview config={avatar} scale={3} />
-              <span className={s.frog} />
+              <span className={s.frog} style={{ backgroundImage: `url('/assets/pet_${pet.species}.png')` }} />
             </div>
           </div>
         )}

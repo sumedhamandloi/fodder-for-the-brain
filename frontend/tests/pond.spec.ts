@@ -16,7 +16,7 @@ test('sit on the dock: notice, journal privately, and see saved ideas bloom', as
   await page.waitForFunction(() => (window as any).__fodder?.scene?.player);
 
   await page.getByRole('button', { name: 'Places' }).click();
-  await page.getByRole('button', { name: 'The Pond' }).click();
+  await page.getByRole('button', { name: 'The Pond', exact: true }).click();
   const pond = page.getByRole('dialog', { name: 'The Pond' });
   await expect(pond).toBeVisible({ timeout: 45_000 });
 

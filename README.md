@@ -26,7 +26,13 @@ Underneath the garden is the real point: **a curiosity engine that gets to know 
 |---|---|
 | **Main World** | Explore a hand-drawn 16-bit garden: cottage, library, glasshouse, pond, forest edge, cherry trees. Move with WASD/arrows or click to walk. The world follows your local time from dawn to night: lit windows, lanterns, fireflies, stars reflected in the pond. |
 | **You** | Sign in by email link or play as a guest. Make a chibi pixel avatar (skin, hair, eyes, outfits, hats, glasses, bags) and change it any time. |
-| **Companion** | A frog who follows you, sits when you rest and naps when you linger. It never gets hungry and never gets sad. |
+| **Companions** | Choose a frog, cat, dog, rabbit, duck or hedgehog. They follow you, sit, nap, and enjoy a scratch, a treat, a game of fetch or a walk together (click them or press **P**). They never get hungry and never get sad. |
+| **Neighbours** | Mabel the gardener, Theo the librarian, Juniper the explorer, Rosa the botanist and Finn the pond keeper potter about the garden. Talk to them for a curiosity, a tip, or a chat. They never interrupt you. |
+| **Glasshouse** | Classic thought experiments with ways others have answered them, reflection questions, and "connect two ideas". Anything you write goes privately to your journal. |
+| **Brain Playground** | Pattern Detective, Little Detective and What Else Could It Be?, all untimed and unscored. |
+| **Curiosity Garden** | Eight topic beds, each offering a curiosity that changes with the days. |
+| **Farming** | Plant carrots, strawberries, sunflowers, tomatoes, pumpkins, blueberries, lavender or tulips in your six beds. They grow in real time, faster with water, and never wilt. |
+| **Seasons & weather** | Spring, summer, autumn and winter each repaint the world. Weather can be clear, cloudy, light or heavy rain, snow, fog or a gentle storm. Follow the calendar, match your local weather (opt-in, rough location only), let it surprise you, or choose. |
 | **Little Library** | Walk inside: rain on the window, a fire in the hearth. Browse three topic shelves of short reads and deep dives, each with sources and a question to sit with. Save ideas, and **Follow the thought** to exactly three related reads. |
 | **Pond & Dock** | Sit on the dock. Gentle *notice* prompts, a private journal, optional pond sounds, and **My Mind Garden**, where each idea you save blooms as a flower. |
 | **My Little Garden** | Through your cottage lies your own garden: beds waiting for seeds, a pet corner, and a lawn to decorate by placing, moving and picking up benches, lanterns, flowers and trees. |
@@ -57,6 +63,15 @@ npm run dev              # → http://localhost:5173
 
 Without any configuration, everything works in **guest mode**, saved in your browser.
 
+### The learning engine (optional, Python)
+```bash
+cd backend
+python -m venv .venv && .venv\Scripts\activate     # macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
+```
+Then add `VITE_API_URL=http://localhost:8000` to `frontend/.env.local`. The library desk and Curiosity Garden will show **Picked for you**, and *Follow the thought* becomes personal. Without it, suggestions stay hand-curated. See [ML_GUIDE](docs/ML_GUIDE.md) for how it learns.
+
 ---
 
 ## 3. Accounts and the database (Supabase)
@@ -67,6 +82,7 @@ Without any configuration, everything works in **guest mode**, saved in your bro
    - `0002_library.sql`: saved ideas
    - `0003_pond.sql`: private journal
    - `0004_garden.sql`: garden decorations
+   - `0005_farming.sql`: garden beds and your harvest basket
 3. In **Authentication → URL Configuration**, set the **Site URL** to your deployed address and add `http://localhost:5173` to **Redirect URLs**.
 4. Create `frontend/.env.local`. This file is git-ignored and should never be committed.
    ```
@@ -92,7 +108,7 @@ Every push to `main` redeploys automatically.
 
 ## 5. The vision: a world that grows with your mind
 
-> **Status: design, not yet built.** Today the library is a fixed, hand-curated collection and "Follow the thought" uses hand-written links. This section describes where Fodder is going and why it is shaped the way it is. The plan in detail lives in [AI_DESIGN.md](docs/AI_DESIGN.md).
+> **Status: layers 1 and 2 are built.** The Idea Graph (TF-IDF vectors with cosine similarity) and your private Curiosity Map (decayed implicit feedback, Bayesian topic beliefs, depth habits per time of day) run in `backend/`. They drive at most three explained picks, with one Thompson-sampled exploration slot. Layer 3, AI-written new branches, is still design. See [ML_GUIDE.md](docs/ML_GUIDE.md) and [AI_DESIGN.md](docs/AI_DESIGN.md).
 
 ### The idea in one picture
 A neural network learns by strengthening the connections that matter and letting the others fade. Fodder's curiosity engine is designed to grow in a similar way, but **in the open, where you can see it and prune it**.
@@ -193,11 +209,11 @@ fodder-for-the-brain/
 | 4 | Little Library | ✅ |
 | 5 | Pond & Dock | ✅ |
 | 6 | My Little Garden | ✅ |
-| 7 | Pets: all six companions | next |
-| 8 | Farming: seeds that grow on real time and never die | |
-| 9 | Seasons and weather | |
-| 10 | Glasshouse, Brain Playground, Curiosity Garden, NPCs | |
-| 11 | **Curiosity Engine (AI)**: Idea Graph, Curiosity Map, Curator, Lens, Follow the Thought | |
+| 7 | Pets: all six companions | ✅ |
+| 8 | Farming: seeds that grow on real time and never die | ✅ |
+| 9 | Seasons and weather | ✅ |
+| 10 | Glasshouse, Brain Playground, Curiosity Garden, NPCs | ✅ |
+| 11 | **Curiosity Engine (AI)**: Idea Graph, Curiosity Map, Curator, Lens, Follow the Thought | next |
 | 12 | Personalisation and polish | |
 
 ---

@@ -19,6 +19,10 @@ Status key: ⏳ awaiting decision · ✅ approved · ✏️ changes requested ·
 | D12 | Default pet in M1 | Frog | ⏳ |
 | D13 | Avatar option set (M3) and its art | 6 skins, 6 hairstyles, 6 hair colours, 4 eyes, 5 outfits × 8 colours, 4 shoes, 5 hats, 4 accessories, 3 bags | ⏳ |
 | D14 | Title and onboarding screens (M2) | Parchment panel over the live world; 4-step onboarding | ⏳ |
+| D16 | Pet family art (cat, dog, rabbit, duck, hedgehog) | Frog's sprite language, 16×16 | ⏳ |
+| D17 | Crop art, 8 × 4 stages | No dead/dry stage, by design | ⏳ |
+| D18 | Seasonal repaints | Autumn grass/foliage ramps and winter snow added to the palette (`a*`, `ag*`, `sn*`) | ⏳ |
+| D19 | NPC cast and personalities | Mabel, Theo, Juniper, Rosa, Finn | ⏳ |
 | D15 | Glasses rims | Gold (`y0`) so they read on every skin tone | ⏳ |
 
 ## Approved components

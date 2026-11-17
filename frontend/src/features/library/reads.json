@@ -1,0 +1,421 @@
+[
+ {
+  "id": "blue-sky",
+  "title": "Why the sky is blue (and not violet)",
+  "topic": "Science",
+  "depth": "short",
+  "minutes": 3,
+  "hook": "Sunlight is every colour at once. The air simply prefers to bounce some of them around.",
+  "body": [
+   "Sunlight looks white, but it is a mixture of every colour of the rainbow. When it enters the atmosphere it meets nitrogen and oxygen molecules that are far smaller than the wavelength of light itself.",
+   "Particles that small scatter light in a lopsided way: shorter wavelengths are scattered much more strongly than longer ones. This is called Rayleigh scattering, and its strength rises steeply as wavelength shrinks, roughly with the inverse fourth power. Blue light, with its short waves, is flung across the whole sky, so wherever you look away from the Sun, some of that scattered blue reaches your eyes.",
+   "Violet is scattered even more than blue, so why isn’t the sky violet? Partly because sunlight contains less violet to begin with, partly because some of it is absorbed high in the atmosphere, and partly because our eyes are simply more sensitive to blue.",
+   "At sunset the light travels through far more air to reach you. Most of the blue has been scattered away along the route, leaving the reds and oranges that make evenings glow."
+  ],
+  "reflect": "What else do you see every day that only looks simple because you have never asked why?",
+  "sources": [
+   {
+    "label": "NASA Space Place: Why is the sky blue?",
+    "url": "https://spaceplace.nasa.gov/blue-sky/en/"
+   },
+   {
+    "label": "Wikipedia: Rayleigh scattering",
+    "url": "https://en.wikipedia.org/wiki/Rayleigh_scattering"
+   }
+  ],
+  "related": [
+   "vermeer-blue",
+   "tardigrades",
+   "plate-tectonics"
+  ]
+ },
+ {
+  "id": "tardigrades",
+  "title": "The water bears that survived open space",
+  "topic": "Science",
+  "depth": "short",
+  "minutes": 3,
+  "hook": "Half a millimetre long, eight stubby legs, and astonishingly hard to kill.",
+  "body": [
+   "Tardigrades, also called water bears or moss piglets, are tiny animals, usually under a millimetre long, that live almost everywhere there is a film of water: moss, lichen, leaf litter, ocean sediment.",
+   "Their trick is a state called cryptobiosis. When their surroundings dry out, many species pull in their legs, lose almost all their water and curl into a shrivelled “tun”. In this state their metabolism becomes nearly undetectable, and they can wait for years until water returns.",
+   "In 2007 researchers sent dried tardigrades into low Earth orbit on the FOTON-M3 mission and exposed them to the vacuum of space. Many survived the vacuum, and some even survived the added harsh ultraviolet radiation, going on to reproduce after they came home.",
+   "Tardigrades are not indestructible, and in their active state they are fairly delicate. Their real superpower is knowing how to pause."
+  ],
+  "reflect": "Is there something in your life that would benefit from a pause rather than a push?",
+  "sources": [
+   {
+    "label": "Jönsson et al. (2008), Tardigrades survive exposure to space in low Earth orbit, Current Biology",
+    "url": "https://doi.org/10.1016/j.cub.2008.06.048"
+   },
+   {
+    "label": "Wikipedia: Tardigrade",
+    "url": "https://en.wikipedia.org/wiki/Tardigrade"
+   }
+  ],
+  "related": [
+   "octopus-arms",
+   "wood-wide-web",
+   "blue-sky"
+  ]
+ },
+ {
+  "id": "plate-tectonics",
+  "title": "The drifting continents nobody believed",
+  "topic": "Science",
+  "depth": "deep",
+  "minutes": 8,
+  "hook": "Alfred Wegener was right about the continents moving, and was dismissed for half a century.",
+  "body": [
+   "Look at a world map and the coasts of South America and Africa seem to fit together like torn paper. People had noticed this for centuries, but in 1912 the German meteorologist Alfred Wegener turned the observation into a bold theory: the continents had once been joined in a single landmass and had since drifted apart. He set it out at length in his book The Origin of Continents and Oceans (1915).",
+   "## The evidence he gathered",
+   "Wegener did not rely on the coastlines alone. He pointed to fossils of the same land-dwelling plants and animals, such as the fern Glossopteris and the small reptile Mesosaurus, found on continents now separated by oceans. He matched rock formations and mountain belts across the Atlantic, and he noted signs of ancient glaciers in places that are now tropical.",
+   "## Why he was dismissed",
+   "Most geologists rejected the idea. The objection was not only stubbornness: Wegener could not explain what force could push continents through the solid ocean floor, and the mechanisms he suggested were shown to be far too weak. Without a convincing “how”, the “what” was hard to accept. Wegener died on an expedition to the Greenland ice sheet in 1930, his theory still on the fringe.",
+   "## The ocean floor speaks",
+   "The breakthrough came from the seabed. In the 1950s Marie Tharp, working with Bruce Heezen, turned echo-sounding data into maps of the ocean floor and found a rift valley running along the Mid-Atlantic Ridge. In the early 1960s Harry Hess proposed seafloor spreading: new crust forms at mid-ocean ridges and moves outward. Then magnetic surveys revealed stripes of rock on either side of the ridges, recording reversals of Earth’s magnetic field in mirror-image patterns, exactly as spreading predicted.",
+   "By the late 1960s these strands had come together as plate tectonics: Earth’s outer shell is broken into plates that move a few centimetres a year, about as fast as your fingernails grow. The continents ride along with them, just as Wegener had said, though by a mechanism he never knew.",
+   "## What the story teaches",
+   "Wegener’s story is often told as a lone genius against a closed-minded establishment. The truth is more interesting: his evidence was good, his critics’ question was also good, and science moved when new data answered it. Being right is not quite enough; you also have to be able to show how."
+  ],
+  "reflect": "Have you ever been right about something before you could explain why? What would have convinced others?",
+  "sources": [
+   {
+    "label": "USGS: This Dynamic Earth, the story of plate tectonics",
+    "url": "https://pubs.usgs.gov/gip/dynamic/dynamic.html"
+   },
+   {
+    "label": "Wikipedia: Alfred Wegener",
+    "url": "https://en.wikipedia.org/wiki/Alfred_Wegener"
+   },
+   {
+    "label": "Wikipedia: Marie Tharp",
+    "url": "https://en.wikipedia.org/wiki/Marie_Tharp"
+   }
+  ],
+  "related": [
+   "library-alexandria",
+   "wood-wide-web",
+   "tardigrades"
+  ]
+ },
+ {
+  "id": "change-blindness",
+  "title": "The stranger who swapped places mid-conversation",
+  "topic": "Psychology",
+  "depth": "short",
+  "minutes": 3,
+  "hook": "In a famous experiment, half the people never noticed they were talking to someone new.",
+  "body": [
+   "In a 1998 study, psychologists Daniel Simons and Daniel Levin had an experimenter stop pedestrians on a university campus to ask for directions. Mid-conversation, two people carrying a door walked rudely between them. In the moment the door blocked the view, a second experimenter took the place of the first and carried on the conversation.",
+   "About half of the pedestrians did not notice that the person they were talking to had changed, even though the two experimenters differed in height, clothing and voice.",
+   "This is change blindness: we feel as if we see a rich, complete picture of the world, but we actually hold onto surprisingly little detail from moment to moment. The brain fills in the rest with expectations. It is an efficient shortcut, and it usually serves us well.",
+   "The lesson is not that people are careless. Attention is a spotlight, not a floodlight, and what falls outside it can quietly change."
+  ],
+  "reflect": "What might be changing around you right now, just outside your spotlight?",
+  "sources": [
+   {
+    "label": "Simons & Levin (1998), Failure to detect changes to people during a real-world interaction, Psychonomic Bulletin & Review",
+    "url": "https://doi.org/10.3758/BF03208840"
+   },
+   {
+    "label": "Wikipedia: Change blindness",
+    "url": "https://en.wikipedia.org/wiki/Change_blindness"
+   }
+  ],
+  "related": [
+   "spacing-effect",
+   "ship-of-theseus",
+   "octopus-arms"
+  ]
+ },
+ {
+  "id": "spacing-effect",
+  "title": "Why forgetting a little helps you remember",
+  "topic": "Psychology",
+  "depth": "deep",
+  "minutes": 7,
+  "hook": "Cramming feels productive. Spacing actually works. The reason is wonderfully counterintuitive.",
+  "body": [
+   "In the 1880s the German psychologist Hermann Ebbinghaus ran one of the most patient experiments in the history of science, on himself. He memorised long lists of nonsense syllables and measured how quickly he forgot them. His results, published in 1885, gave us the “forgetting curve”: memory fades fast at first, then more slowly.",
+   "He noticed something else too. Lists he studied in sessions spread out over days were retained better than lists he crammed in one go, even when the total study time was the same. This is the spacing effect, and it is among the most reliable findings in all of psychology.",
+   "## How strong is it?",
+   "A large 2006 review led by Nicholas Cepeda analysed hundreds of comparisons from the research literature and confirmed that spaced practice beats massed practice for long-term retention. It also found that the best gap depends on how long you want to remember: the longer you need something to last, the wider the spacing should be.",
+   "## Why it works",
+   "One influential explanation comes from psychologists Robert and Elizabeth Bjork, who describe “desirable difficulties”. When you return to something after a gap and have to work a little to recall it, the effort of retrieval itself strengthens the memory. Cramming feels smooth because the material is still fresh, but that smoothness is misleading: it shows that you just saw it, not that you will keep it.",
+   "## A gentle way to use it",
+   "You do not need a strict schedule. Return to an idea you liked a day later, then a few days after that, then the following week. Try to recall it before you look. If it has faded a little, that is not failure; it is the moment learning happens."
+  ],
+  "reflect": "Which idea from this week would you like to still remember next year? When will you visit it again?",
+  "sources": [
+   {
+    "label": "Cepeda et al. (2006), Distributed practice in verbal recall tasks: a review and quantitative synthesis, Psychological Bulletin",
+    "url": "https://doi.org/10.1037/0033-2909.132.3.354"
+   },
+   {
+    "label": "Wikipedia: Spacing effect",
+    "url": "https://en.wikipedia.org/wiki/Spacing_effect"
+   },
+   {
+    "label": "Wikipedia: Forgetting curve",
+    "url": "https://en.wikipedia.org/wiki/Forgetting_curve"
+   }
+  ],
+  "related": [
+   "change-blindness",
+   "dichotomy-of-control",
+   "ada-lovelace"
+  ]
+ },
+ {
+  "id": "ship-of-theseus",
+  "title": "The Ship of Theseus",
+  "topic": "Philosophy",
+  "depth": "short",
+  "minutes": 3,
+  "hook": "Replace every plank of a ship, one by one. Is it still the same ship?",
+  "body": [
+   "The Greek writer Plutarch tells of the ship in which the hero Theseus returned to Athens. The Athenians preserved it for generations, replacing each rotting plank with new timber, until philosophers began to argue: was it still the same ship?",
+   "Centuries later, Thomas Hobbes added a twist. Suppose someone gathered all the old discarded planks and reassembled them. Now there are two ships. Which one is the Ship of Theseus?",
+   "There is no single agreed answer. Some say identity follows continuity: the ship that was gradually repaired is the original. Others say it follows the material: the reassembled planks are the real ship. Still others suggest that “same” simply means different things in different contexts.",
+   "The puzzle is not really about boats. Most of the cells in your body are replaced over time, and your beliefs and habits change too. What makes you the same person you were ten years ago?"
+  ],
+  "reflect": "What part of you has stayed the same through every change?",
+  "sources": [
+   {
+    "label": "Wikipedia: Ship of Theseus",
+    "url": "https://en.wikipedia.org/wiki/Ship_of_Theseus"
+   },
+   {
+    "label": "Stanford Encyclopedia of Philosophy: Identity over Time",
+    "url": "https://plato.stanford.edu/entries/identity-time/"
+   }
+  ],
+  "related": [
+   "dichotomy-of-control",
+   "change-blindness",
+   "library-alexandria"
+  ]
+ },
+ {
+  "id": "dichotomy-of-control",
+  "title": "What is up to us: the Stoic dichotomy of control",
+  "topic": "Philosophy",
+  "depth": "deep",
+  "minutes": 7,
+  "hook": "A formerly enslaved teacher’s two-line idea has comforted people for nearly two thousand years.",
+  "body": [
+   "Epictetus was born around 50 CE in Hierapolis, in what is now Turkey, and spent his early life enslaved in Rome. After gaining his freedom he became one of the most influential teachers of Stoic philosophy. He wrote nothing himself; his student Arrian recorded his lessons in the Discourses and in a short handbook, the Enchiridion.",
+   "The Enchiridion opens with its central idea: some things are within our power and some are not. Within our power are our judgements, our intentions, our desires and aversions, in short our own actions of mind. Not within our power are our bodies, our possessions, our reputations and the opinions of others.",
+   "## Why draw the line?",
+   "Epictetus argued that much of our distress comes from treating things outside our control as if they were ours to command. We want others to think well of us, events to go our way, and our plans to unfold without interruption, and when they don’t, we suffer. If we instead put our care into what is genuinely up to us, such as how we judge events and how we choose to act, we gain a kind of freedom no circumstance can take away.",
+   "## What it is not",
+   "The dichotomy is often misread as “don’t care about anything outside yourself.” Stoics cared deeply about other people and about acting well in the world. The point is where effort and peace of mind belong: you can give your best to a task, and then let the outcome be what it is.",
+   "## A long afterlife",
+   "The emperor Marcus Aurelius read Epictetus and echoed him throughout his private notebook, the Meditations. In the twentieth century the psychologist Albert Ellis credited Epictetus as an inspiration for the approach that became rational emotive behaviour therapy, an influence on modern cognitive therapies: we are disturbed less by events than by the views we take of them."
+  ],
+  "reflect": "Think of one worry you are carrying. Which part of it is up to you, and which part could you set down?",
+  "sources": [
+   {
+    "label": "Stanford Encyclopedia of Philosophy: Epictetus",
+    "url": "https://plato.stanford.edu/entries/epictetus/"
+   },
+   {
+    "label": "Epictetus, The Enchiridion (trans. Elizabeth Carter), MIT Internet Classics Archive",
+    "url": "http://classics.mit.edu/Epictetus/epicench.html"
+   }
+  ],
+  "related": [
+   "ship-of-theseus",
+   "spacing-effect",
+   "serendipity"
+  ]
+ },
+ {
+  "id": "library-alexandria",
+  "title": "The library that wasn’t lost in one fire",
+  "topic": "History",
+  "depth": "short",
+  "minutes": 4,
+  "hook": "The Library of Alexandria did not vanish in a single dramatic blaze. It faded.",
+  "body": [
+   "The Library of Alexandria was founded in Egypt in the early third century BCE under the Ptolemaic kings, as part of a research institution called the Mouseion. It aimed to gather the knowledge of the known world, and scholars working there measured the Earth, edited Homer and catalogued literature.",
+   "Popular stories describe it vanishing in one catastrophic fire. Julius Caesar’s forces did start a fire in Alexandria in 48 BCE that may have destroyed some books, but the library seems to have continued after that.",
+   "Most historians now describe a slow decline over centuries: political turmoil, reduced royal funding, and a purge of intellectuals under Ptolemy VIII in 145 BCE that scattered its scholars. Its daughter library in the Serapeum temple was destroyed in 391 CE.",
+   "It is a quieter, perhaps more useful lesson: knowledge is rarely lost all at once. It is lost when people stop tending it."
+  ],
+  "reflect": "What knowledge or skill in your own life needs a little tending so it doesn’t quietly fade?",
+  "sources": [
+   {
+    "label": "Wikipedia: Library of Alexandria",
+    "url": "https://en.wikipedia.org/wiki/Library_of_Alexandria"
+   },
+   {
+    "label": "Encyclopaedia Britannica: Library of Alexandria",
+    "url": "https://www.britannica.com/topic/Library-of-Alexandria"
+   }
+  ],
+  "related": [
+   "plate-tectonics",
+   "ada-lovelace",
+   "serendipity"
+  ]
+ },
+ {
+  "id": "vermeer-blue",
+  "title": "The blue that cost more than gold",
+  "topic": "Art",
+  "depth": "short",
+  "minutes": 3,
+  "hook": "The turban in Girl with a Pearl Earring was painted with a stone carried thousands of kilometres.",
+  "body": [
+   "For centuries the most brilliant blue a painter could buy was natural ultramarine, ground from the semi-precious stone lapis lazuli. The finest lapis came from mines in the Badakhshan region of present-day Afghanistan, and the name ultramarine means “beyond the sea”, from the long journey it made to European workshops.",
+   "Extracting the pigment was laborious, and at times it was valued as highly as gold. Painters often reserved it for the most important details, traditionally the robes of the Virgin Mary.",
+   "Johannes Vermeer used it lavishly, including in the blue of the turban in Girl with a Pearl Earring (around 1665), and sometimes even beneath other colours to deepen them.",
+   "In the 1820s a cheap synthetic ultramarine was developed in France, and the colour that had once been a luxury became available to everyone."
+  ],
+  "reflect": "What is something precious in your life that became ordinary, and is it still precious?",
+  "sources": [
+   {
+    "label": "Mauritshuis: Girl with a Pearl Earring",
+    "url": "https://www.mauritshuis.nl/en/our-collection/artworks/670-girl-with-a-pearl-earring/"
+   },
+   {
+    "label": "Wikipedia: Ultramarine",
+    "url": "https://en.wikipedia.org/wiki/Ultramarine"
+   }
+  ],
+  "related": [
+   "blue-sky",
+   "serendipity",
+   "library-alexandria"
+  ]
+ },
+ {
+  "id": "serendipity",
+  "title": "Where “serendipity” came from",
+  "topic": "Literature",
+  "depth": "short",
+  "minutes": 2,
+  "hook": "A word invented in a letter, inspired by a fairy tale about three wandering princes.",
+  "body": [
+   "On 28 January 1754, the English writer Horace Walpole wrote a letter to his friend Horace Mann describing a lucky discovery. To name the phenomenon, he coined a new word: serendipity.",
+   "He took it from a Persian fairy tale, The Three Princes of Serendip, in which the princes “were always making discoveries, by accidents and sagacity, of things which they were not in quest of”. Serendip is an old name for Sri Lanka.",
+   "Notice Walpole’s two ingredients: accident and sagacity. Serendipity is not just luck. It is luck noticed by a mind prepared to see it."
+  ],
+  "reflect": "When did you last find something you weren’t looking for? What helped you notice it?",
+  "sources": [
+   {
+    "label": "Wikipedia: Serendipity",
+    "url": "https://en.wikipedia.org/wiki/Serendipity"
+   },
+   {
+    "label": "Merriam-Webster: serendipity, word history",
+    "url": "https://www.merriam-webster.com/dictionary/serendipity"
+   }
+  ],
+  "related": [
+   "ada-lovelace",
+   "dichotomy-of-control",
+   "vermeer-blue"
+  ]
+ },
+ {
+  "id": "octopus-arms",
+  "title": "Octopuses taste with their arms",
+  "topic": "Nature",
+  "depth": "short",
+  "minutes": 3,
+  "hook": "Most of an octopus’s neurons are not in its head.",
+  "body": [
+   "An octopus has around half a billion neurons, and roughly two thirds of them are found not in its central brain but in its eight arms. Each arm can respond to its surroundings with a surprising degree of independence.",
+   "Their suckers are packed with sensory cells. In 2020 a team at Harvard identified the receptors behind a remarkable ability: octopuses can “taste by touch”, sensing chemicals on surfaces simply by feeling them with their suckers.",
+   "So an octopus exploring a rocky crevice is not just feeling its way. It is tasting the rock, and each arm is helping decide what is worth investigating."
+  ],
+  "reflect": "If your hands could taste, what would you want to touch first?",
+  "sources": [
+   {
+    "label": "van Giesen et al. (2020), Molecular basis of chemotactile sensation in octopus, Cell",
+    "url": "https://doi.org/10.1016/j.cell.2020.09.008"
+   },
+   {
+    "label": "Wikipedia: Octopus",
+    "url": "https://en.wikipedia.org/wiki/Octopus"
+   }
+  ],
+  "related": [
+   "tardigrades",
+   "wood-wide-web",
+   "change-blindness"
+  ]
+ },
+ {
+  "id": "wood-wide-web",
+  "title": "Do trees talk? The “wood wide web”, carefully",
+  "topic": "Nature",
+  "depth": "deep",
+  "minutes": 8,
+  "hook": "Fungi really do connect plant roots. Some of the most loved claims about it are still being tested.",
+  "body": [
+   "Beneath almost every forest floor is a vast tangle of fungal threads called hyphae. Many of these fungi form mycorrhizal partnerships with plant roots: the fungus helps the plant gather water and nutrients such as phosphorus, and in return receives sugars the plant makes through photosynthesis. Most land plants form some kind of mycorrhizal relationship.",
+   "## The 1997 study",
+   "In 1997 the forest ecologist Suzanne Simard and colleagues published a study in Nature suggesting that carbon could move between paper birch and Douglas fir trees through shared fungal networks. The journal’s cover called it the “wood wide web”, and the image stuck.",
+   "Over the following decades the idea grew in popular books and documentaries: “mother trees” nurturing their seedlings through underground networks, trees warning each other of danger, forests cooperating like communities.",
+   "## The careful view",
+   "In 2023 a team led by Justine Karst reviewed the field evidence for three popular claims: that these networks are widespread in forests, that resources move through them in amounts that matter to the trees, and that mature trees preferentially help their seedlings this way. They concluded that the evidence for these claims is weaker than often presented, that many studies have alternative explanations, and that positive findings have been cited far more often than mixed or negative ones.",
+   "This does not mean the fungi are unimportant: mycorrhizae clearly matter enormously to plant life. It means some of the most poetic stories ran ahead of what has been measured.",
+   "## Why this is a hopeful story",
+   "The wood wide web is a lovely example of science correcting itself in public. A striking finding inspired years of research and public wonder; then researchers asked, carefully, which parts are solid. Wonder and scepticism are not enemies. The forest is remarkable either way."
+  ],
+  "reflect": "Is there a beautiful idea you believe that you’ve never checked? How would you feel if it turned out to be only half true?",
+  "sources": [
+   {
+    "label": "Simard et al. (1997), Net transfer of carbon between ectomycorrhizal tree species in the field, Nature",
+    "url": "https://doi.org/10.1038/41557"
+   },
+   {
+    "label": "Karst et al. (2023), Positive citation bias and overinterpreted results lead to misinformation on common mycorrhizal networks in forests, Nature Ecology & Evolution",
+    "url": "https://doi.org/10.1038/s41559-023-01986-1"
+   },
+   {
+    "label": "Wikipedia: Mycorrhizal network",
+    "url": "https://en.wikipedia.org/wiki/Mycorrhizal_network"
+   }
+  ],
+  "related": [
+   "octopus-arms",
+   "plate-tectonics",
+   "tardigrades"
+  ]
+ },
+ {
+  "id": "ada-lovelace",
+  "title": "Ada Lovelace saw what computers could become",
+  "topic": "Technology",
+  "depth": "short",
+  "minutes": 4,
+  "hook": "In 1843, a century before electronic computers, she imagined machines making music.",
+  "body": [
+   "In the 1830s the mathematician Charles Babbage designed the Analytical Engine, a mechanical general-purpose computer that was never completed. In 1843 Ada Lovelace translated an Italian engineer’s article about it into English and added her own notes, which ended up roughly three times longer than the article itself.",
+   "In the last of these, Note G, she described step by step how the engine could calculate a sequence called the Bernoulli numbers. It is often called the first published computer program, though historians debate how much credit belongs to Lovelace and how much to Babbage.",
+   "Her deeper insight is less disputed. She saw that the engine could act on any symbols, not just numbers, and wrote that it might compose elaborate pieces of music if the relations of sound could be expressed that way. She also cautioned that it could only do what we know how to order it to do.",
+   "She imagined the general-purpose computer while it still existed only as drawings."
+  ],
+  "reflect": "What tool do you use every day that someone once could only imagine?",
+  "sources": [
+   {
+    "label": "Encyclopaedia Britannica: Ada Lovelace",
+    "url": "https://www.britannica.com/biography/Ada-Lovelace"
+   },
+   {
+    "label": "Wikipedia: Note G",
+    "url": "https://en.wikipedia.org/wiki/Note_G"
+   }
+  ],
+  "related": [
+   "serendipity",
+   "spacing-effect",
+   "library-alexandria"
+  ]
+ }
+]

@@ -32,6 +32,10 @@ P = {
     "k5": "#7C4E33", "k5s": "#5E3926", "k6": "#4F3022", "k6s": "#3B2219",
     # hair
     "h0": "#2A1A14", "h1": "#4A2C1E", "h2": "#6B4126", "h3": "#8E5A33",
+    # seasons (visual bible): autumn foliage + grass, winter snow
+    "a0": "#7A3B1E", "a1": "#B5602A", "a2": "#E0913A", "a3": "#F2C46A",
+    "ag0": "#4F5A2C", "ag1": "#6E7A3A", "ag2": "#8A8B44", "ag3": "#A79A55",
+    "sn0": "#9FB3C8", "sn1": "#C9D6E2", "sn2": "#EEF3F6",
     # frog
     "f0": "#2F5A2A", "f1": "#4E8A3A", "f2": "#79B04A", "f3": "#A8D06A", "f4": "#E8E3A8",
 }

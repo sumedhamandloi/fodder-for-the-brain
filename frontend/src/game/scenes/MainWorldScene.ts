@@ -1,11 +1,16 @@
 ﻿import Phaser from 'phaser';
 import type { Manifest, SpriteMeta } from '../assets';
 import { Player, registerPlayerAnims, WALK_SPEED } from '../entities/Player';
-import { Pet, registerPetAnims } from '../entities/Pet';
+import { Pet } from '../entities/Pet';
+import { linkPet, petKey, registerAllPetAnims } from '../systems/petLink';
 import { Atmosphere, LightSource, Litable } from '../systems/Atmosphere';
 import { Pathfinder } from '../systems/Pathfinder';
 import { bus } from '../bus';
-import { currentPhase, useWorld, Hotspot } from '../../state/world';
+import { currentPhase, currentSeason, currentWeather, isBusy, useWorld, Hotspot, Season } from '../../state/world';
+import { Npc } from '../entities/Npc';
+import { NPCS, npcById } from '../../features/npcs/npcs';
+import { seasonKey, tilesKey } from '../assets';
+import { WeatherFx } from '../systems/WeatherFx';
 import { useSession } from '../../state/session';
 import { composeAvatar } from '../../features/avatar/compose';
 import type { AvatarConfig } from '../../features/avatar/types';
@@ -58,19 +63,30 @@ export class MainWorldScene extends Phaser.Scene {
   private cherries: Phaser.Math.Vector2[] = [];
   private chimney?: Phaser.Math.Vector2;
   private unsub: (() => void)[] = [];
+  private npcs: Npc[] = [];
 
   constructor() {
     super('main-world');
   }
 
+  private season: Season = 'spring';
+
   create() {
+    // the scene restarts when the season changes, so start from a clean slate
+    this.hotspots = [];
+    this.waterTiles = [];
+    this.flowerTiles = [];
+    this.cherries = [];
+    this.unsub = [];
+    this.npcs = [];
+    this.season = currentSeason(useWorld.getState());
     this.manifest = this.cache.json.get('manifest') as Manifest;
-    registerPlayerAnims(this);
-    registerPetAnims(this, 'pet_frog');
+    if (!this.anims.exists('player-idle-down')) registerPlayerAnims(this);
+    registerAllPetAnims(this);
 
     // ---------------------------------------------------------------- terrain
     const map = this.make.tilemap({ key: 'main_world' });
-    const ts = map.addTilesetImage('world', 'tiles')!;
+    const ts = map.addTilesetImage('world', tilesKey(this.season))!;
     map.createLayer('ground', ts, 0, 0)!.setDepth(0);
     map.createLayer('deco', ts, 0, 0)!.setDepth(1);
     const colLayer = map.createLayer('collision', ts, 0, 0)!.setVisible(false);
@@ -94,7 +110,7 @@ export class MainWorldScene extends Phaser.Scene {
       const meta: SpriteMeta | undefined = this.manifest.sprites[key];
       if (!meta) continue;
       const x = o.x!, y = o.y!;
-      const s = this.add.sprite(x, y, key, (prop(o, 'frame') as number) ?? 0).setOrigin(0.5, 1);
+      const s = this.add.sprite(x, y, seasonKey(key, this.season, this.manifest), (prop(o, 'frame') as number) ?? 0).setOrigin(0.5, 1);
       if (prop(o, 'flip')) s.setFlipX(true);
       s.setDepth(meta.flat ? 1.5 : y);
       if (meta.shadow) this.add.ellipse(x, y - 1, meta.shadow[0], meta.shadow[1], 0x10291e, 0.32).setDepth(2);
@@ -121,7 +137,9 @@ export class MainWorldScene extends Phaser.Scene {
         litables.push({ setLit: (lit) => s.setFrame(lit ? 1 : 0) });
         lights.push({ x, y: y - 24, size: 's', strength: 0.8 }, { x, y: y - 4, size: 'm', strength: 0.4 });
       }
-      if (key === 'tree_cherry' || key === 'tree_cherry_s') this.cherries.push(new Phaser.Math.Vector2(x, y - 40));
+      // falling petals in spring, falling leaves from every broadleaf tree in autumn
+      if ((this.season === 'spring' && key.startsWith('tree_cherry')) || (this.season === 'autumn' && /tree_(cherry|oak|round)/.test(key)))
+        this.cherries.push(new Phaser.Math.Vector2(x, y - 40));
     }
     solids.refresh();
 
@@ -158,15 +176,22 @@ export class MainWorldScene extends Phaser.Scene {
           this.tweens.add({ targets: mk, y: mk.y - 2, duration: 1400, yoyo: true, repeat: -1, ease: 'Sine.inOut' });
       }
     }
-    useWorld.getState().set({ hotspots: this.hotspots.map(({ id, label }) => ({ id, label })), ready: true });
+    useWorld.getState().set({ hotspots: this.hotspots.map(({ id, label }) => ({ id, label })), ready: true, location: 'garden', nearby: null });
 
     // ---------------------------------------------------------------- player + pet
+    const resume = this.registry.get('resume:main-world') as { x: number; y: number } | undefined;
+    if (resume) {
+      spawn = new Phaser.Math.Vector2(resume.x, resume.y);
+      this.registry.remove('resume:main-world');
+    }
     this.player = new Player(this, spawn.x, spawn.y);
     this.physics.add.collider(this.player, colLayer);
     this.physics.add.collider(this.player, solids);
     this.player.setCollideWorldBounds(true);
-    this.pet = new Pet(this, spawn.x - 18, spawn.y + 4, 'pet_frog', () => useWorld.getState().reducedMotion);
+    this.pet = new Pet(this, spawn.x - 18, spawn.y + 4, petKey(), () => useWorld.getState().reducedMotion);
+    this.unsub.push(linkPet(this, this.pet, this.player));
     this.add.ellipse(0, 0, 12, 4, 0x10291e, 0.35).setDepth(2).setName('player-shadow');
+    this.npcs = NPCS.map((n) => new Npc(this, n.tile[0] * TS, n.tile[1] * TS, n.id, () => useWorld.getState().reducedMotion));
 
     const cam = this.cameras.main;
     cam.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -183,27 +208,32 @@ export class MainWorldScene extends Phaser.Scene {
     const inWorld = () => useSession.getState().stage === 'world';
     const interact = () => {
       const s = useWorld.getState();
-      if (this.sys.isActive() && inWorld() && s.nearby && !s.openPlace && !s.panel && !s.reading && !s.atPond) this.openPlace(s.nearby.id);
+      if (this.sys.isActive() && inWorld() && s.nearby && !isBusy(s)) this.openPlace(s.nearby.id);
     };
     kb.addKey('E', false).on('down', interact);
     kb.addKey('ENTER', false).on('down', interact);
 
     this.input.on('pointerdown', (p: Phaser.Input.Pointer, objs: Phaser.GameObjects.GameObject[]) => {
       const s = useWorld.getState();
-      if (s.openPlace || s.panel || s.reading || s.atPond || !inWorld() || !this.sys.isActive()) return;
+      if (isBusy(s) || !inWorld() || !this.sys.isActive()) return;
+      const npc = objs.map((o) => o.getData('npc') as string | undefined).find(Boolean);
+      if (npc) return this.goTo(`npc:${npc}`, true);
       const hs = objs.map((o) => o.getData('hotspot') as string | undefined).find(Boolean);
       if (hs) this.goTo(hs, true);
       else this.walkTo(p.worldX, p.worldY);
     });
 
     this.unsub.push(bus.on('place:goto', ({ id }) => this.sys.isActive() && this.goTo(id, true)));
-    this.events.on('wake', () => {
-      useWorld.getState().set({ location: 'garden', hotspots: this.hotspots.map(({ id, label }) => ({ id, label })), nearby: null });
+    const onWake = () => {
       // step out onto the path in front of the door you came through
       this.player.setPosition(this.player.x, this.player.y + 10);
       this.player.facing = 'down';
+      if (currentSeason(useWorld.getState()) !== this.season) return this.restartForSeason();
+      useWorld.getState().set({ location: 'garden', hotspots: this.hotspots.map(({ id, label }) => ({ id, label })), nearby: null });
       this.cameras.main.fadeIn(useWorld.getState().reducedMotion ? 0 : 400, 16, 41, 30);
-    });
+    };
+    this.events.on('wake', onWake);
+    this.events.once('shutdown', () => this.events.off('wake', onWake));
 
     // ---------------------------------------------------------------- atmosphere
     this.atmosphere = new Atmosphere(this, lights, litables, [() => this.spawnNight()], [() => this.spawnDay()]);
@@ -213,10 +243,20 @@ export class MainWorldScene extends Phaser.Scene {
       cam.setLerp(s.reducedMotion ? 1 : 0.12, s.reducedMotion ? 1 : 0.12);
     };
     applyAtmo(true);
+    const weather = new WeatherFx(this);
+    const applyWeather = () => weather.set(currentWeather(useWorld.getState()), useWorld.getState().reducedMotion);
+    applyWeather();
+    this.unsub.push(
+      useWorld.subscribe(() => {
+        if (!this.sys.isActive()) return;
+        if (currentSeason(useWorld.getState()) !== this.season) return this.restartForSeason();
+        applyWeather();
+      }),
+    );
     let lastRM = useWorld.getState().reducedMotion;
     const syncFreeze = () => {
       const s = useWorld.getState();
-      this.player.frozen = !!(s.openPlace || s.panel || s.reading || s.atPond) || !inWorld();
+      this.player.frozen = isBusy(s) || !inWorld();
     };
     syncFreeze();
     let lastAvatar: AvatarConfig | null = null;
@@ -283,8 +323,19 @@ export class MainWorldScene extends Phaser.Scene {
     this.player.onArrive = onArrive ?? null;
   }
 
+  /** Hotspots plus the neighbours, at wherever they're standing right now. */
+  private targets(): HotspotPoint[] {
+    return [
+      ...this.hotspots,
+      ...this.npcs.map((n) => {
+        const info = npcById(n.npcId)!;
+        return { id: `npc:${n.npcId}`, label: `${info.name}, ${info.role}`, x: n.x, y: n.y + 10 };
+      }),
+    ];
+  }
+
   private goTo(id: string, open: boolean) {
-    const h = this.hotspots.find((p) => p.id === id);
+    const h = this.targets().find((p) => p.id === id);
     if (!h) return;
     useWorld.getState().set({ panel: null });
     if (this.player.feet.distance(new Phaser.Math.Vector2(h.x, h.y)) < 20) {
@@ -301,8 +352,26 @@ export class MainWorldScene extends Phaser.Scene {
       useWorld.getState().set({ atPond: true });
       return;
     }
+    if (id.startsWith('npc:')) {
+      const npc = this.npcs.find((n) => `npc:${n.npcId}` === id);
+      npc?.faceToward(this.player.feet);
+      if (npc) npc.paused = true;
+      useWorld.getState().set({ dialogue: { npc: id.slice(4) } });
+      return;
+    }
+    if (id === 'glasshouse') return this.enterInterior('glasshouse');
+    if (id === 'playground' || id === 'curiosity') {
+      useWorld.getState().set({ space: id });
+      return;
+    }
     useWorld.getState().set({ openPlace: id });
     bus.emit('place:opened', { id });
+  }
+
+  /** A new season repaints the world: rebuild the scene in place, keeping you where you stood. */
+  private restartForSeason() {
+    this.registry.set('resume:main-world', { x: this.player.x, y: this.player.y });
+    this.time.delayedCall(0, () => this.scene.restart());
   }
 
   private enterInterior(key: string) {
@@ -320,7 +389,8 @@ export class MainWorldScene extends Phaser.Scene {
   private spawnDay(): Phaser.GameObjects.GameObject[] {
     const out: Phaser.GameObjects.GameObject[] = [];
     // butterflies over flower tiles
-    for (let i = 0; i < 7 && this.flowerTiles.length; i++) {
+    const butterflies = this.season === 'spring' || this.season === 'summer' ? 7 : 0;
+    for (let i = 0; i < butterflies && this.flowerTiles.length; i++) {
       const [tx, ty] = Phaser.Utils.Array.GetRandom(this.flowerTiles);
       const b = this.add.sprite(tx * TS + 8, ty * TS, 'fx_butterfly').setDepth(8000);
       b.anims.create({ key: 'flap', frames: this.anims.generateFrameNumbers('fx_butterfly', {}), frameRate: 5, repeat: -1 });
@@ -370,7 +440,8 @@ export class MainWorldScene extends Phaser.Scene {
       callback: () => {
         if (!this.cherries.length) return;
         const c = Phaser.Utils.Array.GetRandom(this.cherries);
-        const p = this.add.sprite(c.x + Phaser.Math.Between(-22, 22), c.y + Phaser.Math.Between(-16, 10), 'fx_petal', 0).setDepth(8000);
+        const fx = this.season === 'autumn' ? 'fx_leaf' : 'fx_petal';
+        const p = this.add.sprite(c.x + Phaser.Math.Between(-22, 22), c.y + Phaser.Math.Between(-16, 10), fx, 0).setDepth(8000);
         this.tweens.add({
           targets: p, x: p.x + Phaser.Math.Between(14, 34), y: p.y + Phaser.Math.Between(30, 46), duration: 4200,
           onUpdate: (tw) => p.setFrame(Math.floor(tw.progress * 12) % 4), onComplete: () => p.destroy(),
@@ -432,11 +503,17 @@ export class MainWorldScene extends Phaser.Scene {
       Math.round(this.player.x), Math.round(this.player.y) - 1,
     );
 
-    // nearest hotspot within reach
+    const s0 = useWorld.getState();
+    for (const n of this.npcs) {
+      if (n.paused && !s0.dialogue) n.paused = false;
+      n.update(dt);
+    }
+
+    // nearest hotspot (or neighbour) within reach
     const f = this.player.feet;
     let near: HotspotPoint | null = null;
     let best = 26;
-    for (const h of this.hotspots) {
+    for (const h of this.targets()) {
       const d = Phaser.Math.Distance.Between(f.x, f.y, h.x, h.y);
       if (d < best) {
         best = d;

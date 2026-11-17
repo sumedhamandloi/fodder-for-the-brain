@@ -22,6 +22,7 @@ SKINS = {
 HAIR_COLORS = {
     "black": ("w0", "h0", "h1"), "espresso": ("h0", "h1", "h2"), "chestnut": ("h1", "h2", "h3"),
     "auburn": ("r0", "r1", "r2"), "honey": ("y0", "y1", "y2"), "rose": ("p0", "p1", "p2"),
+    "silver": ("s2", "s3", "s4"),
 }
 HAIRSTYLES = ["bob", "short", "long", "buns", "ponytail", "curly", "crop", "sidepart", "spiky"]
 CROPPED = ("crop", "sidepart", "spiky")
@@ -495,6 +496,14 @@ def options():
         },
     }
 
+
+NPCS = {
+    "mabel": dict(DEFAULT, skin="honey", hairStyle="buns", hairColor="silver", outfit="overalls", outfitColor="sage", hat="straw", accessory="glasses"),
+    "theo": dict(DEFAULT, skin="umber", hairStyle="sidepart", hairColor="black", outfit="shirt", outfitColor="lavender", hat="none", accessory="glasses", backpack="satchel"),
+    "juniper": dict(DEFAULT, skin="porcelain", hairStyle="ponytail", hairColor="auburn", outfit="tee", outfitColor="marigold", hat="bucket", backpack="backpack", shoes="white"),
+    "rosa": dict(DEFAULT, skin="tan", hairStyle="curly", hairColor="espresso", outfit="dress", outfitColor="forest", hat="flowers", eyes="lashes"),
+    "finn": dict(DEFAULT, skin="peach", hairStyle="crop", hairColor="silver", outfit="hoodie", outfitColor="sky", hat="beanie", accessory="scarf", shoes="black"),
+}
 
 ORDER = ["pack_back", "hair_back", "skin", "shoes", "outfit", "eyes", "hair_front", "hat", "acc", "pack_front"]
 

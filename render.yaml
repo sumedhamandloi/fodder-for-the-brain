@@ -1,0 +1,18 @@
+# Render blueprint for the Fodder learning engine (backend/).
+# Render → New → Blueprint → pick this repo. Fill in the two "sync: false" values when asked.
+services:
+  - type: web
+    name: fodder-learning-engine
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: FODDER_ALLOWED_ORIGINS
+        sync: false # e.g. https://fodder-for-the-brain.vercel.app,http://localhost:5173
+      - key: SUPABASE_JWT_SECRET
+        sync: false # Supabase → Project Settings → API → JWT Secret

@@ -31,6 +31,9 @@ test('walk into the library, read today’s piece, save it and follow the though
 
   await page.getByRole('button', { name: 'Places' }).click();
   await page.getByRole('button', { name: "Today's read" }).click();
+  const desk = page.getByRole('dialog', { name: 'The reading desk' });
+  await expect(desk).toBeVisible({ timeout: 20_000 });
+  await desk.locator('ul').first().getByRole('button').click();
   const reader = page.locator('article[role="dialog"]');
   await expect(reader).toBeVisible({ timeout: 20_000 });
   await expect(reader.getByText('Sources')).toBeVisible();

@@ -46,20 +46,21 @@ test('a new guest is welcomed, makes an avatar, adopts a frog and enters the wor
   await page.getByRole('button', { name: 'Next Hat' }).click();
   await page.getByRole('button', { name: 'This is me' }).click();
 
-  await expect(page.getByRole('radio', { name: /Cat/ })).toBeDisabled();
+  await page.getByRole('radio', { name: /Hedgehog/ }).click();
+  await expect(page.getByRole('radio', { name: /Hedgehog/ })).toHaveAttribute('aria-checked', 'true');
   await page.getByLabel('Their name').fill('Pip');
   await page.getByRole('button', { name: 'Next' }).click();
 
   await page.getByRole('button', { name: 'Nature' }).click();
   await page.getByRole('button', { name: 'Into the garden' }).click();
-  await expect(page.getByText("Morning in Wren's garden")).toBeVisible();
+  await expect(page.getByText(/morning in Wren's garden/)).toBeVisible();
 
   // the composed avatar replaced the default sprite
   await page.waitForFunction(() => window.__fodder?.scene?.player?.texture?.key?.startsWith('avatar-'));
   const saved = await page.evaluate(() => JSON.parse(localStorage.getItem('fodder.save.v1')!));
   expect(saved.profile.displayName).toBe('Wren');
   expect(saved.avatar.skin).toBe('umber');
-  expect(saved.pet).toEqual({ species: 'frog', name: 'Pip' });
+  expect(saved.pet).toEqual({ species: 'hedgehog', name: 'Pip' });
   expect(errors).toEqual([]);
 });
 
@@ -82,11 +83,11 @@ test('collision stops the avatar at the forest edge', async ({ page }) => {
   expect(p.x).toBeGreaterThan(40);
 });
 
-test('Places menu walks to the glasshouse and opens its card', async ({ page }) => {
+test('Places menu walks to the Brain Playground and opens it', async ({ page }) => {
   await enterAsReturningGuest(page);
   await page.getByRole('button', { name: 'Places' }).click();
-  await page.getByRole('button', { name: 'Glasshouse' }).click();
-  await expect(page.getByRole('dialog', { name: 'Glasshouse' })).toBeVisible({ timeout: 45_000 });
+  await page.getByRole('button', { name: 'Brain Playground' }).click();
+  await expect(page.getByRole('dialog', { name: 'Brain Playground' })).toBeVisible({ timeout: 45_000 });
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog')).toHaveCount(0);
 });
@@ -106,7 +107,7 @@ test('time of day can be set manually and leaving is gentle', async ({ page }) =
   await enterAsReturningGuest(page);
   await page.getByRole('button', { name: 'Your Little World' }).click();
   await page.getByRole('button', { name: 'Night' }).click();
-  await expect(page.getByText("Night in Wren's garden")).toBeVisible();
+  await expect(page.getByText(/night in Wren's garden/)).toBeVisible();
   await page.getByRole('button', { name: 'Done' }).click();
   await page.getByRole('button', { name: 'Leave quietly' }).click();
   await expect(page.getByRole('dialog', { name: 'See you soon' })).toBeVisible();

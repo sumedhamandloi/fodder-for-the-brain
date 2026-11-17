@@ -43,11 +43,15 @@ export class Pet extends Phaser.GameObjects.Sprite {
   private zzz?: Phaser.GameObjects.Sprite;
   private shadow: Phaser.GameObjects.Ellipse;
 
+  /** walking together: stays right at your side instead of trailing behind */
+  walkTogether = false;
+  private task: { target: Phaser.Math.Vector2; speed: number; onArrive: () => void } | null = null;
+
   constructor(
     scene: Phaser.Scene,
     x: number,
     y: number,
-    readonly species: string,
+    public species: string,
     private reducedMotion: () => boolean,
   ) {
     super(scene, x, y, species, 0);
@@ -55,6 +59,99 @@ export class Pet extends Phaser.GameObjects.Sprite {
     this.setOrigin(0.5, 15 / 16);
     this.shadow = scene.add.ellipse(x, y, 12, 4, 0x10291e, 0.35).setDepth(2);
     this.play(`${species}-idle-down`);
+    this.setInteractive({ useHandCursor: true, pixelPerfect: false });
+    this.setData('pet', true);
+  }
+
+  setSpecies(key: string) {
+    if (key === this.species || !this.scene.textures.exists(key)) return;
+    this.species = key;
+    this.setTexture(key, 0);
+    this.play(`${key}-idle-down`);
+  }
+
+  /** Little moments of affection. Nothing is tracked; they're just nice. */
+  act(kind: 'pet' | 'treat' | 'ball', leader: Phaser.Math.Vector2, facingLeft: boolean) {
+    this.restAt = this.restFrom = null;
+    if (kind === 'pet') {
+      this.play(`${this.species}-sit-down`, true);
+      this.hearts();
+      this.task = { target: new Phaser.Math.Vector2(this.x, this.y), speed: 0, onArrive: () => undefined };
+      this.scene.time.delayedCall(1400, () => (this.task = null));
+      return;
+    }
+    const dir = facingLeft ? -1 : 1;
+    if (kind === 'treat') {
+      const spot = new Phaser.Math.Vector2(leader.x + dir * 14, leader.y + 2);
+      const t = this.scene.add.image(spot.x, spot.y - 2, 'fx_treat').setDepth(spot.y);
+      this.task = {
+        target: spot, speed: 70,
+        onArrive: () => {
+          t.destroy();
+          this.play(`${this.species}-idle-down`, true);
+          this.hearts();
+          this.task = { target: spot, speed: 0, onArrive: () => undefined };
+          this.scene.time.delayedCall(1200, () => (this.task = null));
+        },
+      };
+      return;
+    }
+    // fetch: toss a ball, the pet runs after it and brings it home
+    const land = new Phaser.Math.Vector2(leader.x + dir * 56, leader.y + Phaser.Math.Between(-10, 10));
+    const ball = this.scene.add.image(leader.x, leader.y - 10, 'fx_ball').setDepth(9000);
+    const reduce = this.reducedMotion();
+    this.scene.tweens.add({ targets: ball, x: land.x, duration: reduce ? 1 : 520 });
+    this.scene.tweens.add({ targets: ball, y: land.y - 4, duration: reduce ? 1 : 520, ease: 'Quad.easeIn' });
+    this.task = {
+      target: land, speed: 110,
+      onArrive: () => {
+        ball.setVisible(false);
+        this.task = {
+          target: leader.clone().add(new Phaser.Math.Vector2(dir * 10, 4)), speed: 90,
+          onArrive: () => {
+            ball.destroy();
+            this.hearts();
+            this.task = null;
+          },
+        };
+      },
+    };
+  }
+
+  private hearts() {
+    if (this.reducedMotion()) {
+      const h = this.scene.add.image(this.x, this.y - 18, 'fx_heart', 0).setDepth(9100);
+      this.scene.time.delayedCall(1200, () => h.destroy());
+      return;
+    }
+    for (let i = 0; i < 3; i++) {
+      const h = this.scene.add.image(this.x + (i - 1) * 6, this.y - 14, 'fx_heart', i % 2).setDepth(9100);
+      this.scene.tweens.add({ targets: h, y: h.y - 14, alpha: 0, delay: i * 180, duration: 1100, onComplete: () => h.destroy() });
+    }
+  }
+
+  private updateTask(dt: number): boolean {
+    if (!this.task) return false;
+    const d = this.task.target.clone().subtract(new Phaser.Math.Vector2(this.x, this.y));
+    if (this.task.speed === 0) {
+      this.setDepth(this.y);
+      return true;
+    }
+    if (d.length() < 2) {
+      this.task.onArrive();
+      return true;
+    }
+    const step = Math.min(d.length(), (this.task.speed * dt) / 1000);
+    d.normalize();
+    this.x += d.x * step;
+    this.y += d.y * step;
+    const side = Math.abs(d.x) > Math.abs(d.y);
+    this.setFlipX(side && d.x < 0);
+    const key = `${this.species}-walk-${side ? 'side' : d.y < 0 ? 'up' : 'down'}`;
+    if (this.anims.currentAnim?.key !== key) this.play(key, true);
+    this.setDepth(this.y);
+    this.shadow.setPosition(Math.round(this.x), Math.round(this.y) - 1);
+    return true;
   }
 
   private restAt: Phaser.Math.Vector2 | null = null;
@@ -92,6 +189,7 @@ export class Pet extends Phaser.GameObjects.Sprite {
   }
 
   update(dt: number, leader: Phaser.Math.Vector2, leaderMoving: boolean) {
+    if (this.updateTask(dt)) return;
     if (this.updateRest(dt, leader)) return;
     const last = this.trail[this.trail.length - 1];
     if (!last || last.distance(leader) > 3) this.trail.push(leader.clone());
@@ -101,9 +199,10 @@ export class Pet extends Phaser.GameObjects.Sprite {
     const gap = me.distance(leader);
     // aim for the trail point ~22px behind the leader
     let target: Phaser.Math.Vector2 | null = null;
-    if (gap > 26) {
+    const keep = this.walkTogether ? 10 : 20;
+    if (gap > keep + 6) {
       for (let i = this.trail.length - 1; i >= 0; i--) {
-        if (this.trail[i].distance(leader) >= 20) {
+        if (this.trail[i].distance(leader) >= keep) {
           target = this.trail[i];
           break;
         }

@@ -1,0 +1,55 @@
+.overlay { position: fixed; inset: 0; z-index: 25; display: grid; place-items: center; padding: 16px; background: rgba(16, 41, 30, 0.35); }
+.panel { width: min(96vw, calc(var(--px) * 220)); max-height: 92vh; overflow-y: auto; }
+.lede { font-family: var(--font-read); font-style: italic; font-size: clamp(15px, calc(var(--px) * 5), 18px); color: var(--c-wood); margin: 0 0 calc(var(--px) * 3); }
+.tabs { display: flex; flex-wrap: wrap; gap: calc(var(--px) * 2); margin-bottom: calc(var(--px) * 3); }
+.section { display: grid; gap: calc(var(--px) * 3); justify-items: start; }
+.section > label, .section > ul, .section > ol, .section > p, .section > div { justify-self: stretch; }
+.footer { margin-top: calc(var(--px) * 4); }
+.row { display: flex; flex-wrap: wrap; gap: calc(var(--px) * 2); align-items: center; }
+.h3 { font-family: var(--font-read); font-size: 22px; margin: 0; color: var(--c-forest); }
+.reading { font-family: var(--font-read); font-size: clamp(16px, calc(var(--px) * 5.5), 19px); line-height: 1.6; margin: 0; }
+.question {
+  font-family: var(--font-read); font-size: clamp(18px, calc(var(--px) * 6.5), 22px); line-height: 1.45; margin: 0;
+  padding: 12px 16px; background: #eef3e2; border-left: calc(var(--px) * 2) solid var(--c-moss); color: #183c2b;
+}
+.angles, .clues { font-family: var(--font-read); font-size: 17px; line-height: 1.6; margin: 0; padding-left: 22px; }
+.source { font-family: var(--font-read); font-size: 14px; color: var(--c-wood); margin: 0; }
+.field { display: grid; gap: 6px; font-size: calc(var(--px) * 4.5); color: var(--c-wood-dk); }
+.field textarea { font-family: var(--font-read); font-size: 17px; line-height: 1.6; padding: 10px 12px; background: var(--c-parchment-hi); border: calc(var(--px) * 1) solid var(--c-ink); resize: vertical; }
+.ok { font-family: var(--font-read); color: var(--c-moss); margin: 0; }
+.reveal { font-family: var(--font-read); font-size: 17px; line-height: 1.6; margin: 0; padding: 10px 14px; background: #fff3c4; border: 1px solid #e9b45f; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.card, .bed {
+  display: grid; gap: 4px; text-align: left; cursor: pointer; padding: 12px 14px;
+  font-family: var(--font-read); font-size: 17px; color: var(--c-ink);
+  background: var(--c-parchment-hi); border: calc(var(--px) * 0.75) solid var(--c-wood);
+}
+.card:hover, .bed:hover { background: #fff3c4; }
+.meta { font-family: var(--font-pixel); font-size: 13px; color: var(--c-moss); }
+.sequence { display: flex; flex-wrap: wrap; gap: 8px; }
+.tile {
+  min-width: 52px; text-align: center; padding: 10px 8px; font-family: var(--font-pixel); font-size: 22px;
+  background: var(--c-parchment-hi); border: calc(var(--px) * 0.75) solid var(--c-wood-dk);
+}
+.blank { background: #d2e3a0; border-style: dashed; }
+.beds { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.bed { height: 100%; background: #f4f1e6; border-left: calc(var(--px) * 2) solid #8c6142; }
+.bedTitle { font-weight: 600; }
+.forYou { border-left-color: #c27390; background: #fcf3f4; }
+.because { font-style: italic; font-size: 14px; color: #8e4c64; }
+.hook { font-size: 15px; color: #5a3b2a; }
+
+.dialogue {
+  position: fixed; left: 50%; bottom: calc(var(--px) * 4); transform: translateX(-50%); z-index: 22;
+  width: min(96vw, calc(var(--px) * 230)); display: grid; grid-template-columns: auto 1fr; gap: calc(var(--px) * 4); align-items: start;
+}
+.portrait {
+  width: calc(var(--px) * 48); height: calc(var(--px) * 64); image-rendering: pixelated;
+  background-size: calc(var(--px) * 288) calc(var(--px) * 192); background-position: 0 0; background-repeat: no-repeat;
+  background-color: #a9c77d; box-shadow: 0 0 0 calc(var(--px) * 1) var(--c-ink);
+}
+.talk { display: grid; gap: calc(var(--px) * 2); }
+.name { margin: 0; font-size: calc(var(--px) * 6); color: var(--c-wood-dk); }
+.name small { font-size: calc(var(--px) * 4); color: var(--c-wood); }
+.line { margin: 0; font-family: var(--font-read); font-size: clamp(16px, calc(var(--px) * 5.5), 19px); line-height: 1.55; }
+@media (max-width: 640px) { .pair { grid-template-columns: 1fr; } .dialogue { grid-template-columns: 1fr; } .portrait { display: none; } }

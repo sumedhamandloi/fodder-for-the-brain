@@ -5,6 +5,7 @@
    "frameWidth": 48,
    "frameHeight": 64,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -5,
     -6,
@@ -21,6 +22,7 @@
    "frameWidth": 48,
    "frameHeight": 64,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -5,
     -6,
@@ -37,6 +39,7 @@
    "frameWidth": 40,
    "frameHeight": 52,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -4,
     -5,
@@ -53,6 +56,7 @@
    "frameWidth": 32,
    "frameHeight": 64,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -3,
     -5,
@@ -69,6 +73,7 @@
    "frameWidth": 64,
    "frameHeight": 80,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -5,
     -6,
@@ -85,6 +90,7 @@
    "frameWidth": 44,
    "frameHeight": 56,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -4,
     -5,
@@ -101,6 +107,7 @@
    "frameWidth": 32,
    "frameHeight": 24,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -12,
     -8,
@@ -117,6 +124,7 @@
    "frameWidth": 32,
    "frameHeight": 24,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -12,
     -8,
@@ -133,6 +141,7 @@
    "frameWidth": 32,
    "frameHeight": 24,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -12,
     -8,
@@ -149,6 +158,7 @@
    "frameWidth": 32,
    "frameHeight": 24,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -12,
     -8,
@@ -165,6 +175,7 @@
    "frameWidth": 32,
    "frameHeight": 24,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -12,
     -8,
@@ -181,6 +192,7 @@
    "frameWidth": 16,
    "frameHeight": 14,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -5,
     -6,
@@ -193,6 +205,7 @@
    "frameWidth": 28,
    "frameHeight": 22,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -11,
     -10,
@@ -205,6 +218,7 @@
    "frameWidth": 28,
    "frameHeight": 22,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -11,
     -10,
@@ -216,19 +230,22 @@
    "file": "mushroom_red.png",
    "frameWidth": 16,
    "frameHeight": 16,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "mushroom_brown": {
    "file": "mushroom_brown.png",
    "frameWidth": 16,
    "frameHeight": 16,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "fence_h": {
    "file": "fence_h.png",
    "frameWidth": 16,
    "frameHeight": 16,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -8,
     -6,
@@ -241,6 +258,7 @@
    "frameWidth": 16,
    "frameHeight": 16,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -2,
     -16,
@@ -253,6 +271,7 @@
    "frameWidth": 16,
    "frameHeight": 16,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -2,
     -4,
@@ -265,6 +284,7 @@
    "frameWidth": 16,
    "frameHeight": 32,
    "frames": 2,
+   "seasonal": true,
    "body": [
     -2,
     -3,
@@ -281,6 +301,7 @@
    "frameWidth": 32,
    "frameHeight": 20,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -14,
     -8,
@@ -297,6 +318,7 @@
    "frameWidth": 16,
    "frameHeight": 16,
    "frames": 1,
+   "seasonal": false,
    "body": [
     -4,
     -4,
@@ -309,6 +331,7 @@
    "frameWidth": 16,
    "frameHeight": 16,
    "frames": 1,
+   "seasonal": false,
    "body": [
     -4,
     -4,
@@ -321,6 +344,7 @@
    "frameWidth": 16,
    "frameHeight": 16,
    "frames": 1,
+   "seasonal": false,
    "body": [
     -4,
     -4,
@@ -333,6 +357,7 @@
    "frameWidth": 16,
    "frameHeight": 18,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -6,
     -5,
@@ -345,6 +370,7 @@
    "frameWidth": 16,
    "frameHeight": 16,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -6,
     -5,
@@ -357,6 +383,7 @@
    "frameWidth": 16,
    "frameHeight": 24,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -2,
     -3,
@@ -369,6 +396,7 @@
    "frameWidth": 48,
    "frameHeight": 34,
    "frames": 1,
+   "seasonal": true,
    "flat": true
   },
   "arch": {
@@ -376,6 +404,7 @@
    "frameWidth": 56,
    "frameHeight": 56,
    "frames": 1,
+   "seasonal": true,
    "bodies": [
     [
      -26,
@@ -396,6 +425,7 @@
    "frameWidth": 40,
    "frameHeight": 56,
    "frames": 4,
+   "seasonal": false,
    "anim": 6,
    "body": [
     -18,
@@ -408,61 +438,71 @@
    "file": "shadow_s.png",
    "frameWidth": 12,
    "frameHeight": 4,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "shadow_m": {
    "file": "shadow_m.png",
    "frameWidth": 24,
    "frameHeight": 6,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "shadow_l": {
    "file": "shadow_l.png",
    "frameWidth": 48,
    "frameHeight": 12,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "marker_book": {
    "file": "marker_book.png",
    "frameWidth": 24,
    "frameHeight": 28,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "marker_house": {
    "file": "marker_house.png",
    "frameWidth": 24,
    "frameHeight": 28,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "marker_sprout": {
    "file": "marker_sprout.png",
    "frameWidth": 24,
    "frameHeight": 28,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "marker_puzzle": {
    "file": "marker_puzzle.png",
    "frameWidth": 24,
    "frameHeight": 28,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "marker_pond": {
    "file": "marker_pond.png",
    "frameWidth": 24,
    "frameHeight": 28,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "marker_leaf": {
    "file": "marker_leaf.png",
    "frameWidth": 24,
    "frameHeight": 28,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "bld_cottage": {
    "file": "bld_cottage.png",
    "frameWidth": 96,
    "frameHeight": 100,
    "frames": 2,
+   "seasonal": true,
    "body": [
     -46,
     -18,
@@ -487,6 +527,7 @@
    "frameWidth": 96,
    "frameHeight": 100,
    "frames": 2,
+   "seasonal": true,
    "body": [
     -46,
     -18,
@@ -511,6 +552,7 @@
    "frameWidth": 84,
    "frameHeight": 88,
    "frames": 2,
+   "seasonal": true,
    "body": [
     -40,
     -14,
@@ -535,6 +577,7 @@
    "frameWidth": 88,
    "frameHeight": 76,
    "frames": 2,
+   "seasonal": true,
    "bodies": [
     [
      -36,
@@ -564,79 +607,92 @@
    "file": "fx_glow_s.png",
    "frameWidth": 20,
    "frameHeight": 20,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "fx_glow_m": {
    "file": "fx_glow_m.png",
    "frameWidth": 44,
    "frameHeight": 44,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "fx_glow_l": {
    "file": "fx_glow_l.png",
    "frameWidth": 72,
    "frameHeight": 72,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "fx_moon": {
    "file": "fx_moon.png",
    "frameWidth": 28,
    "frameHeight": 14,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "fx_firefly": {
    "file": "fx_firefly.png",
    "frameWidth": 3,
    "frameHeight": 3,
-   "frames": 2
+   "frames": 2,
+   "seasonal": false
   },
   "fx_star": {
    "file": "fx_star.png",
    "frameWidth": 3,
    "frameHeight": 3,
-   "frames": 2
+   "frames": 2,
+   "seasonal": false
   },
   "fx_petal": {
    "file": "fx_petal.png",
    "frameWidth": 4,
    "frameHeight": 4,
-   "frames": 4
+   "frames": 4,
+   "seasonal": false
   },
   "fx_smoke": {
    "file": "fx_smoke.png",
    "frameWidth": 10,
    "frameHeight": 10,
-   "frames": 4
+   "frames": 4,
+   "seasonal": false
   },
   "fx_sparkle": {
    "file": "fx_sparkle.png",
    "frameWidth": 5,
    "frameHeight": 5,
-   "frames": 4
+   "frames": 4,
+   "seasonal": false
   },
   "fx_koi": {
    "file": "fx_koi.png",
    "frameWidth": 10,
    "frameHeight": 6,
-   "frames": 4
+   "frames": 4,
+   "seasonal": false
   },
   "fx_butterfly": {
    "file": "fx_butterfly.png",
    "frameWidth": 5,
    "frameHeight": 4,
-   "frames": 2
+   "frames": 2,
+   "seasonal": false
   },
   "fx_zzz": {
    "file": "fx_zzz.png",
    "frameWidth": 5,
    "frameHeight": 5,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "player": {
    "file": "player.png",
    "frameWidth": 24,
    "frameHeight": 32,
    "frames": 18,
+   "seasonal": false,
    "frame": [
     24,
     32
@@ -652,6 +708,7 @@
    "frameWidth": 16,
    "frameHeight": 16,
    "frames": 27,
+   "seasonal": false,
    "frame": [
     16,
     16
@@ -662,60 +719,104 @@
     15
    ]
   },
+  "room_cottage": {
+   "file": "room_cottage.png",
+   "frameWidth": 480,
+   "frameHeight": 270,
+   "frames": 1,
+   "seasonal": false
+  },
+  "cottage_table": {
+   "file": "cottage_table.png",
+   "frameWidth": 72,
+   "frameHeight": 44,
+   "frames": 1,
+   "seasonal": false
+  },
+  "room_glasshouse": {
+   "file": "room_glasshouse.png",
+   "frameWidth": 480,
+   "frameHeight": 270,
+   "frames": 1,
+   "seasonal": false
+  },
+  "gh_table": {
+   "file": "gh_table.png",
+   "frameWidth": 88,
+   "frameHeight": 44,
+   "frames": 1,
+   "seasonal": false
+  },
+  "gh_bench": {
+   "file": "gh_bench.png",
+   "frameWidth": 48,
+   "frameHeight": 28,
+   "frames": 1,
+   "seasonal": false
+  },
   "room_library": {
    "file": "room_library.png",
    "frameWidth": 480,
    "frameHeight": 270,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "lib_desk": {
    "file": "lib_desk.png",
    "frameWidth": 96,
    "frameHeight": 48,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "lib_chair": {
    "file": "lib_chair.png",
    "frameWidth": 56,
    "frameHeight": 52,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "lib_lamp": {
    "file": "lib_lamp.png",
    "frameWidth": 20,
    "frameHeight": 64,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "fx_fire": {
    "file": "fx_fire.png",
    "frameWidth": 28,
    "frameHeight": 22,
    "frames": 4,
+   "seasonal": false,
    "anim": 7
   },
   "fx_rain": {
    "file": "fx_rain.png",
    "frameWidth": 3,
    "frameHeight": 8,
-   "frames": 4
+   "frames": 4,
+   "seasonal": false
   },
   "mind_flowers": {
    "file": "mind_flowers.png",
    "frameWidth": 16,
    "frameHeight": 24,
-   "frames": 6
+   "frames": 6,
+   "seasonal": false
   },
   "mind_bed": {
    "file": "mind_bed.png",
    "frameWidth": 168,
    "frameHeight": 56,
-   "frames": 1
+   "frames": 1,
+   "seasonal": false
   },
   "pet_bed": {
    "file": "pet_bed.png",
    "frameWidth": 32,
    "frameHeight": 20,
    "frames": 1,
+   "seasonal": true,
    "body": [
     -14,
     -6,
@@ -729,7 +830,208 @@
    "frameWidth": 14,
    "frameHeight": 10,
    "frames": 1,
+   "seasonal": false,
    "flat": true
+  },
+  "pet_cat": {
+   "file": "pet_cat.png",
+   "frameWidth": 16,
+   "frameHeight": 16,
+   "frames": 27,
+   "seasonal": false,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 9,
+   "anchor": [
+    8,
+    15
+   ]
+  },
+  "pet_dog": {
+   "file": "pet_dog.png",
+   "frameWidth": 16,
+   "frameHeight": 16,
+   "frames": 27,
+   "seasonal": false,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 9,
+   "anchor": [
+    8,
+    15
+   ]
+  },
+  "pet_rabbit": {
+   "file": "pet_rabbit.png",
+   "frameWidth": 16,
+   "frameHeight": 16,
+   "frames": 27,
+   "seasonal": false,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 9,
+   "anchor": [
+    8,
+    15
+   ]
+  },
+  "pet_duck": {
+   "file": "pet_duck.png",
+   "frameWidth": 16,
+   "frameHeight": 16,
+   "frames": 27,
+   "seasonal": false,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 9,
+   "anchor": [
+    8,
+    15
+   ]
+  },
+  "pet_hedgehog": {
+   "file": "pet_hedgehog.png",
+   "frameWidth": 16,
+   "frameHeight": 16,
+   "frames": 27,
+   "seasonal": false,
+   "frame": [
+    16,
+    16
+   ],
+   "cols": 9,
+   "anchor": [
+    8,
+    15
+   ]
+  },
+  "fx_heart": {
+   "file": "fx_heart.png",
+   "frameWidth": 7,
+   "frameHeight": 7,
+   "frames": 2,
+   "seasonal": false
+  },
+  "fx_treat": {
+   "file": "fx_treat.png",
+   "frameWidth": 8,
+   "frameHeight": 8,
+   "frames": 1,
+   "seasonal": false
+  },
+  "fx_ball": {
+   "file": "fx_ball.png",
+   "frameWidth": 8,
+   "frameHeight": 8,
+   "frames": 1,
+   "seasonal": false
+  },
+  "crop_carrot": {
+   "file": "crop_carrot.png",
+   "frameWidth": 16,
+   "frameHeight": 24,
+   "frames": 4,
+   "seasonal": false
+  },
+  "crop_strawberry": {
+   "file": "crop_strawberry.png",
+   "frameWidth": 16,
+   "frameHeight": 24,
+   "frames": 4,
+   "seasonal": false
+  },
+  "crop_sunflower": {
+   "file": "crop_sunflower.png",
+   "frameWidth": 16,
+   "frameHeight": 24,
+   "frames": 4,
+   "seasonal": false
+  },
+  "crop_tomato": {
+   "file": "crop_tomato.png",
+   "frameWidth": 16,
+   "frameHeight": 24,
+   "frames": 4,
+   "seasonal": false
+  },
+  "crop_pumpkin": {
+   "file": "crop_pumpkin.png",
+   "frameWidth": 16,
+   "frameHeight": 24,
+   "frames": 4,
+   "seasonal": false
+  },
+  "crop_blueberry": {
+   "file": "crop_blueberry.png",
+   "frameWidth": 16,
+   "frameHeight": 24,
+   "frames": 4,
+   "seasonal": false
+  },
+  "crop_lavender": {
+   "file": "crop_lavender.png",
+   "frameWidth": 16,
+   "frameHeight": 24,
+   "frames": 4,
+   "seasonal": false
+  },
+  "crop_tulip": {
+   "file": "crop_tulip.png",
+   "frameWidth": 16,
+   "frameHeight": 24,
+   "frames": 4,
+   "seasonal": false
+  },
+  "soil_wet": {
+   "file": "soil_wet.png",
+   "frameWidth": 32,
+   "frameHeight": 32,
+   "frames": 1,
+   "seasonal": false,
+   "flat": true
+  },
+  "produce": {
+   "file": "produce.png",
+   "frameWidth": 12,
+   "frameHeight": 12,
+   "frames": 8,
+   "seasonal": false
+  },
+  "fx_snow": {
+   "file": "fx_snow.png",
+   "frameWidth": 3,
+   "frameHeight": 3,
+   "frames": 2,
+   "seasonal": false
+  },
+  "fx_streak": {
+   "file": "fx_streak.png",
+   "frameWidth": 2,
+   "frameHeight": 7,
+   "frames": 1,
+   "seasonal": false
+  },
+  "fx_fog": {
+   "file": "fx_fog.png",
+   "frameWidth": 96,
+   "frameHeight": 32,
+   "frames": 1,
+   "seasonal": false
+  },
+  "fx_leaf": {
+   "file": "fx_leaf.png",
+   "frameWidth": 4,
+   "frameHeight": 4,
+   "frames": 4,
+   "seasonal": false
   }
  },
  "ui": {

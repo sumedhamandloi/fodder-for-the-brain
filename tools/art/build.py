@@ -11,7 +11,7 @@ from PIL import Image  # noqa: E402
 
 from pal import P, PALETTE_SET  # noqa: E402
 from px import sheet  # noqa: E402
-import tiles, props, buildings, characters, fx, mapgen, avatar, interiors, pond, homegen  # noqa: E402
+import tiles, props, buildings, characters, fx, mapgen, avatar, interiors, pond, homegen, pets, crops, seasons  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUT = os.path.join(ROOT, "frontend", "public", "assets")
@@ -46,6 +46,8 @@ def main():
     manifest = {"sprites": {}, "ui": {}, "status": STATUS}
     ts = tiles.build()
     save("tiles", ts)
+    for s in seasons.SEASONS:
+        save(f"tiles__{s}", seasons.tileset(ts, s))
 
     groups = {}
     groups.update(props.build())
@@ -55,13 +57,20 @@ def main():
     groups.update(interiors.build())
     groups.update(pond.build())
     groups.update(homegen.props())
+    groups.update(pets.build())
+    groups.update(crops.build())
+    groups.update(seasons.weather_fx())
     for key, (frames, meta) in groups.items():
         cols = meta.get("cols", len(frames))
         sh = sheet(frames, cols)
         save(key, sh)
+        seasonal = seasons.varies(key)
+        if seasonal:
+            for s in seasons.SEASONS:
+                save(f"{key}__{s}", sheet(seasons.sprite(key, frames, s), cols))
         manifest["sprites"][key] = {
             "file": key + ".png", "frameWidth": frames[0].w, "frameHeight": frames[0].h,
-            "frames": len(frames), **meta,
+            "frames": len(frames), "seasonal": seasonal, **meta,
         }
     for key, c in fx.build_ui().items():
         save(key, c)
@@ -131,6 +140,9 @@ def build_avatar():
     # fallback player sheet = the default avatar
     player = sheet(compose_avatar(cats, avatar.DEFAULT), 6)
     save("player", player)
+    # NPCs share the avatar construction so they match the player's style exactly
+    for npc, cfg in avatar.NPCS.items():
+        save(f"npc_{npc}", sheet(compose_avatar(cats, cfg), 6))
     print(f"[art] avatar: {sum(len(v[0]) for v in cats.values())} layer variants")
 
 
